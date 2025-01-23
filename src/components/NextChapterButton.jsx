@@ -36,7 +36,7 @@ function NextChapterButton({
       console.log("erreur Next chapter button", error);
     } finally {
       navigate(`/courses/${courseId}`);
-      //window.location.reload();
+      window.location.reload();
       setIsLoading(false);
     }
   };
