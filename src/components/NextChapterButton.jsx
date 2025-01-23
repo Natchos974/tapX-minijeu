@@ -32,15 +32,6 @@ function NextChapterButton({
         isCompleted: !isCompleted,
       });
       setIsCompleted(!isCompleted);
-      /*if (!isCompleted) {
-        if (!isLastChapter) {
-          navigate(`/courses/${courseId}/chapters/${nextChapterId}`);
-        } else {
-          navigate(`/courses/${courseId}/signature`);
-        }
-      } else {
-        navigate(`/courses/${courseId}/chapters/${currentChapterId}`);
-      }*/
     } catch (error) {
       console.log("erreur Next chapter button", error);
     } finally {
