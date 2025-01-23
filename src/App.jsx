@@ -9,7 +9,6 @@ import Home from "./components/Home";
 import InitialLoader from "./components/InitialLoader";
 import CourseLayout from "./components/CourseLayout";
 import Chapter from "./components/Chapter";
-import ChapterLayout from "./components/ChapterLayout";
 import Admin from "./components/Admin";
 
 function App() {
