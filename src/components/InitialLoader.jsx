@@ -49,13 +49,92 @@ const InitialLoader = ({ children }) => {
           setIsLoading(false);
         });
     }
-  }, []);
+  }, [session]);
+
+  const updateChapterStatus = async (courseId, chapterId, isCompleted) => {
+    let initialChapter = null;
+    let initialProgress = null;
+    try {
+      // Mise à jour optimiste dans le state local
+      const updatedCourses = [...courses];
+      //console.log("updatedCourses", updatedCourses);
+      const courseIndex = updatedCourses.findIndex(
+        (course) => course.id === Number(courseId)
+      );
+      //console.log("courseIndex", courseIndex);
+      const chapterIndex = updatedCourses[courseIndex]?.chapterArray?.findIndex(
+        (chapter) => chapter.id === Number(chapterId)
+      );
+      //console.log("chapterIndex", chapterIndex);
+      if (chapterIndex === -1) return false; // Si le chapitre n'est pas trouvé, on quitte
+
+      // Sauvegarder l'état initial du chapitre et du progres pour pouvoir revenir en arrière si nécessaire
+      initialChapter = {
+        ...updatedCourses[courseIndex].chapterArray[chapterIndex],
+      };
+      initialProgress = { ...updatedCourses[courseIndex].progress };
+
+      console.log("initialProgress", initialProgress);
+
+      // Mise à jour optimiste : le chapitre est marqué comme validé ou non validé
+      updatedCourses[courseIndex].chapterArray[chapterIndex] = {
+        ...updatedCourses[courseIndex].chapterArray[chapterIndex],
+        isCompleted, // Utilisation de isCompleted passé en argument
+      };
+
+      setCourses(updatedCourses); // Mise à jour du state local
+
+      // Appel à l'API pour persister la validation dans la base de données
+      /*const { error } = await supabase
+        .from("chapters")
+        .update({ is_completed: isCompleted }) // Mise à jour de la base de données avec la valeur de isCompleted
+        .eq("id", chapterId)
+        .eq("course_id", courseId);*/
+      const { error } = await supabase.from("user_progress").upsert({
+        user_id: session.user.id,
+        chapter_id: chapterId,
+        isCompleted: isCompleted,
+      });
+
+      if (error) throw new Error(error.message); // Si l'API échoue, on lance une erreur
+      // Recalculer la progression de l'utilisateur après la mise à jour
+      const userProgress = await getUserProgress(courseId, session.user.id);
+      // Mettre à jour la progression de l'utilisateur dans le state local
+      updatedCourses[courseIndex].progress = userProgress;
+      setCourses(updatedCourses); // Mise à jour du state local avec la nouvelle progression
+
+      return true; // Si la mise à jour réussit
+    } catch (error) {
+      console.error("Erreur API:", error);
+
+      // Rétablir l'état si l'API échoue
+      const updatedCourses = [...courses];
+      console.log(updatedCourses);
+      const courseIndex = updatedCourses.findIndex(
+        (course) => course.id === Number(courseId)
+      );
+      const chapterIndex = updatedCourses[courseIndex]?.chapterArray?.findIndex(
+        (chapter) => chapter.id === Number(chapterId)
+      );
+
+      if (chapterIndex !== -1 && initialChapter) {
+        // Restaurer l'état initial du chapitre
+        updatedCourses[courseIndex].chapterArray[chapterIndex] = initialChapter;
+        // Restaurer l'état initial de la progression
+        updatedCourses[courseIndex].progress = initialProgress;
+        setCourses(updatedCourses); // Réinitialiser l'état local
+        console.log("updated courses when fail", updatedCourses);
+      }
+
+      return false; // Indiquer que la mise à jour a échoué
+    }
+  };
 
   if (!courses) {
     return <div>Loading...</div>; // Afficher un indicateur de chargement
   }
 
-  return children({ courses, isLoading });
+  return children({ courses, isLoading, updateChapterStatus });
 };
 
 export default InitialLoader;

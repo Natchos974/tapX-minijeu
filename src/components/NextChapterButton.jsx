@@ -1,18 +1,15 @@
 import { Button } from "./ui/button";
-import { useTransition, useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
 import { SuccessContext } from "../utils/SuccessContext";
 
 function NextChapterButton({
   courseId,
-  //nextChapterId,
-  //isLastChapter,
   currentChapterId,
   initialIsCompleted,
-  userId,
   isCourseSigned,
+  updateChapterStatus,
 }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +20,7 @@ function NextChapterButton({
     setIsCompleted(initialIsCompleted);
   }, [initialIsCompleted]);
 
-  const onClick = async () => {
+  /* const onClick = async () => {
     try {
       setIsLoading(true);
       await supabase.from("user_progress").upsert({
@@ -39,13 +36,26 @@ function NextChapterButton({
       window.location.reload();
       setIsLoading(false);
     }
+  };*/
+  const handleChapterCompletion = async () => {
+    const success = await updateChapterStatus(
+      courseId,
+      currentChapterId,
+      !isCompleted
+    );
+    console.log(success);
+    if (!success) {
+      // Si l'appel API échoue, afficher un message d'erreur ou restaurer l'état
+      console.log("La validation du chapitre a échoué");
+    }
+    navigate(`/courses/${courseId}`);
   };
 
   const Icon = isCompleted ? XCircle : CheckCircle;
 
   return (
     <Button
-      onClick={onClick}
+      onClick={handleChapterCompletion}
       disabled={isLoading || isCourseSigned || !success}
       variant={isCompleted ? "outline" : "success"}
     >

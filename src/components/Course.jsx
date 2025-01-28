@@ -9,7 +9,6 @@ function Course({ courses, isLoading }) {
   // Filtrer l'objet pour récupérer l'item correspondant
   const course = courses?.find((course) => course.id === courseId);
   const chapterArray = course?.chapterArray;
-  console.log(chapterArray);
   const signatureIsAvailable = course?.chapterArray?.every(
     (chapter) => chapter.isCompleted
   );

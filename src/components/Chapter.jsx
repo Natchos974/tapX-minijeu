@@ -5,14 +5,32 @@ import { SuccessProvider } from "../utils/SuccessContext";
 import NextChapterButton from "./NextChapterButton";
 import { useSession } from "../utils/useSession";
 
-function Chapter({ courses }) {
+function Chapter({ courses, updateChapterStatus }) {
   const { chapterId, id } = useParams();
   const session = useSession();
   const { user } = session;
+  //const navigate = useNavigate();
   const course = courses?.find((course) => course.id === Number(id));
   const chapter = course?.chapterArray?.find(
     (item) => item.id === Number(chapterId)
   );
+  /*  const onClick = async () => {
+    try {
+      setIsLoading(true);
+      await supabase.from("user_progress").upsert({
+        user_id: userId,
+        chapter_id: currentChapterId,
+        isCompleted: !isCompleted,
+      });
+      setIsCompleted(!isCompleted);
+    } catch (error) {
+      console.log("erreur Next chapter button", error);
+    } finally {
+      navigate(`/courses/${courseId}`);
+      window.location.reload();
+      setIsLoading(false);
+    }
+  };*/
 
   return (
     <SuccessProvider>
@@ -49,6 +67,7 @@ function Chapter({ courses }) {
           isLastChapter={false}
           nextChapterId={Number(chapterId) + 1}
           userId={user.id}
+          updateChapterStatus={updateChapterStatus}
         />
       </div>
     </SuccessProvider>

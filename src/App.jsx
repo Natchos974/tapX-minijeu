@@ -17,7 +17,7 @@ function App() {
   return (
     <Router>
       <InitialLoader>
-        {({ courses, isLoading }) => (
+        {({ courses, isLoading, updateChapterStatus }) => (
           <Routes>
             <Route element={<DashboardLayout />}>
               <Route
@@ -41,7 +41,12 @@ function App() {
               />{" "}
               <Route
                 path="/courses/:id/chapters/:chapterId"
-                element={<Chapter courses={courses} />}
+                element={
+                  <Chapter
+                    courses={courses}
+                    updateChapterStatus={updateChapterStatus}
+                  />
+                }
               />
             </Route>
             <Route

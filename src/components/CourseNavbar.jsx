@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 function CourseNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id, chapterId } = useParams();
+  const { id } = useParams();
   //console.log(id, chapterId);
   return (
     <div className="p-4 border-b h-full font-semibold flex gap-5 bg-white shadow-sm justify-end items-center">
