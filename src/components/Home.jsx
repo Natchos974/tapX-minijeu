@@ -3,7 +3,6 @@ import { SkeletonCard } from "./SkeletonCard";
 
 function Home({ courses, isLoading }) {
   const myCourses = courses.filter((item) => item.progress > 0);
-
   return (
     <>
       {isLoading ? (

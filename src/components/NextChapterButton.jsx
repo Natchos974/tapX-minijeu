@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { SuccessContext } from "../utils/SuccessContext";
+import { useToast } from "@/hooks/use-toast";
 
 function NextChapterButton({
   courseId,
@@ -13,42 +14,34 @@ function NextChapterButton({
 }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { success } = useContext(SuccessContext);
+  let { success } = useContext(SuccessContext);
   const [isCompleted, setIsCompleted] = useState(initialIsCompleted);
-
+  success = true; // Remove this line to avoid validating chapter that are not yet validated by the user
   useEffect(() => {
     setIsCompleted(initialIsCompleted);
   }, [initialIsCompleted]);
-
-  /* const onClick = async () => {
-    try {
-      setIsLoading(true);
-      await supabase.from("user_progress").upsert({
-        user_id: userId,
-        chapter_id: currentChapterId,
-        isCompleted: !isCompleted,
-      });
-      setIsCompleted(!isCompleted);
-    } catch (error) {
-      console.log("erreur Next chapter button", error);
-    } finally {
-      navigate(`/courses/${courseId}`);
-      window.location.reload();
-      setIsLoading(false);
-    }
-  };*/
+  const { toast } = useToast();
   const handleChapterCompletion = async () => {
-    const success = await updateChapterStatus(
+    setIsLoading(true);
+    const successOptimistic = await updateChapterStatus(
       courseId,
       currentChapterId,
       !isCompleted
     );
-    console.log(success);
-    if (!success) {
+
+    console.log("Success ? :", successOptimistic);
+    navigate(`/courses/${courseId}`);
+    if (!successOptimistic) {
       // Si l'appel API échoue, afficher un message d'erreur ou restaurer l'état
       console.log("La validation du chapitre a échoué");
+      toast({
+        title: "Echec !",
+        description: "La validation du chapitre a échouée",
+        variant: "destructive",
+      });
     }
-    navigate(`/courses/${courseId}`);
+
+    setIsLoading(false);
   };
 
   const Icon = isCompleted ? XCircle : CheckCircle;

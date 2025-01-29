@@ -29,7 +29,7 @@ function ChapterCard({ id, title, isCompleted }) {
           {title}
         </h2>
         {isCompleted && (
-          <div className="flex gap-x-1 items-center text-sm text-emerald-700">
+          <div className="flex text-lg md:text-base gap-x-1 items-center text-emerald-700">
             <CheckCircle />
             Chapitre validé
           </div>

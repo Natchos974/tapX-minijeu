@@ -6,10 +6,10 @@ function ChapterLayout() {
   return (
     <>
       <div className="h-full">
-        <div className="h-16 fixed inset-y-0 w-full">
+        <div className="h-16 fixed inset-y-0 w-full z-99 bg-white">
           <CourseNavbar />
         </div>
-        <main className="pt-[80px] px-2 mb-5 min-h-screen items-center flex flex-col md:items-start">
+        <main className="pt-[80px] px-2 mb-5 min-h-screen items-center flex flex-col md:items-start z-0">
           <Outlet />
         </main>
       </div>

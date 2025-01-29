@@ -9,32 +9,14 @@ function Chapter({ courses, updateChapterStatus }) {
   const { chapterId, id } = useParams();
   const session = useSession();
   const { user } = session;
-  //const navigate = useNavigate();
   const course = courses?.find((course) => course.id === Number(id));
   const chapter = course?.chapterArray?.find(
     (item) => item.id === Number(chapterId)
   );
-  /*  const onClick = async () => {
-    try {
-      setIsLoading(true);
-      await supabase.from("user_progress").upsert({
-        user_id: userId,
-        chapter_id: currentChapterId,
-        isCompleted: !isCompleted,
-      });
-      setIsCompleted(!isCompleted);
-    } catch (error) {
-      console.log("erreur Next chapter button", error);
-    } finally {
-      navigate(`/courses/${courseId}`);
-      window.location.reload();
-      setIsLoading(false);
-    }
-  };*/
 
   return (
     <SuccessProvider>
-      <div className="flex flex-col gap-5 md:max-w-[70%]">
+      <div className="flex flex-col gap-5 md:max-w-[70%] z-0">
         <h1 className="font-semibold text-lg">{chapter?.description}</h1>
         {chapter?.h5p_reference ? (
           <div>

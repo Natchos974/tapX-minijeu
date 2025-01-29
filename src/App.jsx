@@ -10,6 +10,7 @@ import InitialLoader from "./components/InitialLoader";
 import CourseLayout from "./components/CourseLayout";
 import Chapter from "./components/Chapter";
 import Admin from "./components/Admin";
+import Signature from "./components/Signature";
 
 function App() {
   const session = useSession();
@@ -17,7 +18,12 @@ function App() {
   return (
     <Router>
       <InitialLoader>
-        {({ courses, isLoading, updateChapterStatus }) => (
+        {({
+          courses,
+          isLoading,
+          updateChapterStatus,
+          handleSignatureStatus,
+        }) => (
           <Routes>
             <Route element={<DashboardLayout />}>
               <Route
@@ -45,6 +51,15 @@ function App() {
                   <Chapter
                     courses={courses}
                     updateChapterStatus={updateChapterStatus}
+                  />
+                }
+              />
+              <Route
+                path="/courses/:id/signature"
+                element={
+                  <Signature
+                    courses={courses}
+                    handleSignatureStatus={handleSignatureStatus}
                   />
                 }
               />

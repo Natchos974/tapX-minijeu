@@ -5,11 +5,9 @@ export default async function getUserSignature(userId, courseId) {
     .from("user_signature")
     .select("*")
     .eq("user_id", userId)
-    .eq("course_id", courseId)
-    .single();
-
+    .eq("course_id", courseId);
   if (error) {
     return null;
   }
-  return data;
+  return data[0];
 }

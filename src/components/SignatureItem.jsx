@@ -43,7 +43,7 @@ function SignatureItem({ courseId, isAvailable, isSigned }) {
           className={cn(
             "text-lg text-slate-500 md:text-base transition line-clamp-2",
             isAvailable && "text-inherit",
-            isAvailable && isSigned && "text-emerald-600"
+            isAvailable && isSigned && "text-emerald-700"
           )}
         >
           {isSigned

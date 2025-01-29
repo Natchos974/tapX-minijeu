@@ -12,11 +12,12 @@ function Course({ courses, isLoading }) {
   const signatureIsAvailable = course?.chapterArray?.every(
     (chapter) => chapter.isCompleted
   );
+
   if (!chapterArray) return <SkeletonCard />;
   if (chapterArray?.length === 0) return <p>Il n y a pas de chapitres</p>;
 
   return (
-    <>
+    <div>
       {isLoading ? (
         <SkeletonCard />
       ) : (
@@ -33,11 +34,11 @@ function Course({ courses, isLoading }) {
             key={course.id}
             courseId={course.id}
             isAvailable={signatureIsAvailable}
-            isSigned={false}
+            isSigned={course.signature}
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

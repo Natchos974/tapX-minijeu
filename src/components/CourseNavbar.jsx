@@ -11,7 +11,10 @@ function CourseNavbar() {
       <Link
         onClick={(e) => {
           e.preventDefault();
-          if (location.pathname.includes("/chapters")) {
+          if (
+            location.pathname.includes("/chapters") ||
+            location.pathname.includes("/signature")
+          ) {
             // Navigate to the related course page
             navigate(`/courses/${id}`);
           } else {
