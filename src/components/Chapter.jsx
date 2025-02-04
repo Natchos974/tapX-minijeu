@@ -20,9 +20,7 @@ function Chapter({ courses, updateChapterStatus }) {
         <h1 className="font-semibold text-lg">{chapter?.description}</h1>
         {chapter?.h5p_reference ? (
           <div>
-            <Suspense fallback={<p>Loading mini-game...</p>}>
-              <PlayerH5p h5pJsonPath={`/h5p/${chapter.h5p_reference}`} />
-            </Suspense>
+            <PlayerH5p h5pJsonPath={`/h5p/${chapter.h5p_reference}`} />
           </div>
         ) : chapter?.videoURL ? (
           <div className="responsive-iframe-container h-full">

@@ -11,7 +11,7 @@ function PlayerH5p({ h5pJsonPath }) {
       try {
         const { H5P: H5PStandalone } = await import("h5p-standalone");
         await new H5PStandalone(el, options);
-        H5P.externalDispatcher.on("xAPI", (event) => {
+        window.H5P.externalDispatcher.on("xAPI", (event) => {
           const eventIsSuccess = event.data?.statement?.result?.success;
           const eventIsCompleted =
             event.data?.statement?.verb?.id ===
