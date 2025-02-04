@@ -11,6 +11,7 @@ import CourseLayout from "./components/CourseLayout";
 import Chapter from "./components/Chapter";
 import Admin from "./components/Admin";
 import Signature from "./components/Signature";
+import Teacher from "./components/Teacher";
 
 function App() {
   const session = useSession();
@@ -39,6 +40,7 @@ function App() {
                 element={<Search courses={courses} isLoading={isLoading} />}
               />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/teacher" element={<Teacher />} />
             </Route>
             <Route element={<CourseLayout />}>
               <Route

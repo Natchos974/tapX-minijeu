@@ -10,6 +10,7 @@ function Admin() {
   const [success, setSuccess] = useState(false);
   const [classes, setClasses] = useState([]);
   const [selectedClassId, setSelectedClassId] = useState("");
+  const [isProfessor, setisProfessor] = useState(false);
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -35,10 +36,20 @@ function Admin() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ login, password, classeId: selectedClassId }),
+        body: JSON.stringify({
+          login,
+          password,
+          classeId: selectedClassId,
+          isProfessor,
+        }),
       });
       console.log(
-        JSON.stringify({ login, password, classeId: selectedClassId })
+        JSON.stringify({
+          login,
+          password,
+          classeId: selectedClassId,
+          isProfessor,
+        })
       );
       const data = await response.json();
 
@@ -83,7 +94,7 @@ function Admin() {
           />
         </div>
         <div className="flex flex-col gap-1 justify-center">
-          <label className="font-semibold">Class</label>
+          <label className="font-semibold">Classe</label>
           <select
             value={selectedClassId}
             onChange={(e) => {
@@ -93,13 +104,32 @@ function Admin() {
             className="rounded-md px-2 py-1"
           >
             <option value="" disabled>
-              Select a class
+              Selectionnez une classe
             </option>
             {classes.map((classe) => (
               <option key={classe.id} value={classe.id}>
                 {classe.name}
               </option>
             ))}
+          </select>
+        </div>
+        <div className="flex flex-col gap-1 justify-center">
+          <label className="font-semibold">
+            L utilisateur est il un professeur ?
+          </label>
+          <select
+            value={isProfessor}
+            onChange={(e) => {
+              setisProfessor(e.target.value);
+            }}
+            required
+            className="rounded-md px-2 py-1"
+          >
+            <option value="" disabled>
+              Selectionnez une option
+            </option>
+            <option value={true}>Vrai</option>
+            <option value={false}>Faux</option>
           </select>
         </div>
         <Button type="submit" disabled={loading}>

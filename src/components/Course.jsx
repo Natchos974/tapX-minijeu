@@ -17,7 +17,7 @@ function Course({ courses, isLoading }) {
   if (chapterArray?.length === 0) return <p>Il n y a pas de chapitres</p>;
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <SkeletonCard />
       ) : (
@@ -38,7 +38,7 @@ function Course({ courses, isLoading }) {
           />
         </div>
       )}
-    </div>
+    </>
   );
 }
 

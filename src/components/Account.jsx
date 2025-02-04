@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
-import Avatar from "./Avatar";
 import propTypes from "prop-types";
 import { ArrowBigRightDash } from "lucide-react";
 
 export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState(null);
-  const [website, setWebsite] = useState(null);
-  const [avatar_url, setAvatarUrl] = useState(null);
+  const [lastname, setLastname] = useState(null);
 
   useEffect(() => {
     let ignore = false;
@@ -18,7 +16,7 @@ export default function Account({ session }) {
 
       const { data, error } = await supabase
         .from("profiles")
-        .select(`username, website, avatar_url`)
+        .select(`username, lastname`)
         .eq("id", user.id)
         .single();
 
@@ -27,8 +25,7 @@ export default function Account({ session }) {
           console.warn(error);
         } else if (data) {
           setUsername(data.username);
-          setWebsite(data.website);
-          setAvatarUrl(data.avatar_url);
+          setLastname(data.lastname);
         }
       }
 
@@ -42,7 +39,7 @@ export default function Account({ session }) {
     };
   }, [session]);
 
-  async function updateProfile(event, avatarUrl) {
+  async function updateProfile(event) {
     event.preventDefault();
 
     setLoading(true);
@@ -51,8 +48,7 @@ export default function Account({ session }) {
     const updates = {
       id: user.id,
       username,
-      website,
-      avatar_url: avatarUrl,
+      lastname,
       updated_at: new Date(),
     };
 
@@ -60,8 +56,6 @@ export default function Account({ session }) {
 
     if (error) {
       alert(error.message);
-    } else {
-      setAvatarUrl(avatarUrl);
     }
     setLoading(false);
   }
@@ -98,23 +92,17 @@ export default function Account({ session }) {
           />
         </div>
         <div className="flex flex-col gap-2 justify-center">
-          <label className="font-semibold" htmlFor="website">
-            Website
+          <label className="font-semibold" htmlFor="lastname">
+            Lastname
           </label>
           <input
-            id="website"
-            type="url"
-            value={website || ""}
-            onChange={(e) => setWebsite(e.target.value)}
+            id="lastname"
+            type="text"
+            value={lastname || ""}
+            onChange={(e) => setLastname(e.target.value)}
             className="input-field"
           />
         </div>
-        <Avatar
-          url={avatar_url}
-          onUpload={(event, url) => {
-            updateProfile(event, url);
-          }}
-        />
         <div>
           <button
             type="submit"

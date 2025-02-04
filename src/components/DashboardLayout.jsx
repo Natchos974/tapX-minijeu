@@ -13,7 +13,7 @@ function DashboardLayout() {
         <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
           <Sidebar />
         </div>
-        <main className="md:pl-60 pt-[80px] px-2 mb-5 min-h-screen items-center flex flex-col md:items-start">
+        <main className="md:pl-60 pt-[80px] px-2 mb-5 min-h-screen items-center flex flex-col md:items-start z-0">
           <Outlet />
         </main>
       </div>

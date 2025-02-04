@@ -25,10 +25,10 @@
 }
 
 .responsive-iframe-container {
-  @apply relative w-full h-screen md:w-[100%] md:pb-[56.25%] md:h-0;
+  @apply relative w-full h-screen md:w-[100%] md:pb-[56.25%] md:h-0 overflow-hidden;
 }
 .responsive-iframe-container iframe {
-  @apply absolute top-0 left-0 w-[100%] h-[100%];
+  @apply absolute top-0 left-0 w-[100%] h-[100%] z-0;
 }
 /*@media (max-width: 768px) {
   .responsive-iframe-container {

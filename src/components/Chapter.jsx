@@ -13,7 +13,7 @@ function Chapter({ courses, updateChapterStatus }) {
   const chapter = course?.chapterArray?.find(
     (item) => item.id === Number(chapterId)
   );
-
+  console.log(`/h5p/${chapter.h5p_reference}`);
   return (
     <SuccessProvider>
       <div className="flex flex-col gap-5 md:max-w-[70%] z-0">
@@ -36,7 +36,9 @@ function Chapter({ courses, updateChapterStatus }) {
           </div>
         ) : chapter?.PDFLink ? (
           <div className="responsive-iframe-container h-full">
-            <iframe src={chapter.PDFLink} width="100%" height="100%" />
+            <Suspense fallback={<p>Loading...</p>}>
+              <iframe src={chapter.PDFLink} width="100%" height="100%" />
+            </Suspense>
           </div>
         ) : (
           <div>Il n y a rien dans ce chapitre pour le moment</div>

@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-//import { useSuccess } from "../utils/useSuccess";
-import { useToast } from "../hooks/use-toast";
-import { useSuccess } from "../utils/useSuccess";
+import { useContext, useEffect, useRef } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { SuccessContext } from "../utils/SuccessContext";
 
 function PlayerH5p({ h5pJsonPath }) {
   const h5pContainer = useRef(null);
-  const { setSuccess } = useSuccess();
+  const { setSuccess } = useContext(SuccessContext);
   const { toast } = useToast();
-  const [error, setError] = useState(null);
   useEffect(() => {
     const h5pFunc = async (el, options) => {
       try {
@@ -39,9 +37,6 @@ function PlayerH5p({ h5pJsonPath }) {
         });
       } catch (error) {
         console.log("Error H5P: ", error);
-        setError(
-          "Oops, une erreur est survenue lors du chargement du contenu H5P."
-        );
       }
     };
     setSuccess(false);
@@ -61,10 +56,6 @@ function PlayerH5p({ h5pJsonPath }) {
       h5pFunc(el, options);
     }
   }, [setSuccess, h5pJsonPath, toast]);
-
-  if (error) {
-    return <div className="text-muted-foreground">{error}</div>;
-  }
 
   return (
     <>

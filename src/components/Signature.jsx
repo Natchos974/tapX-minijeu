@@ -2,13 +2,17 @@ import { useSession } from "../utils/useSession";
 import { useNavigate, useParams } from "react-router-dom";
 import PadSignature from "./PadSignature";
 import DownloadCertificateButton from "./DownloadCertificateButton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "../utils/supabaseClient";
 
 function Signature({ courses, handleSignatureStatus }) {
   const session = useSession();
   const { id } = useParams();
   const navigate = useNavigate();
   const courseId = Number(id); // Convertir l'ID en nombre entier
+  const [username, setUsername] = useState(null);
+
+  const [lastname, setLastname] = useState(null);
 
   // Filtrer l'objet pour récupérer l'item correspondant
   const course = courses?.find((course) => course.id === courseId);
@@ -21,6 +25,20 @@ function Signature({ courses, handleSignatureStatus }) {
     }
   }, [signatureIsAvailable, navigate]);
 
+  useEffect(() => {
+    async function getProfile() {
+      const { user } = session;
+      const { data } = await supabase
+        .from("profiles")
+        .select(`username, lastname`)
+        .eq("id", user.id)
+        .single();
+      setUsername(data.username);
+      setLastname(data.lastname);
+    }
+    getProfile();
+  }, [session]);
+  console.log(username, lastname);
   if (!signatureIsAvailable) {
     return null; // Return null or a loading spinner while navigating
   }
@@ -44,13 +62,10 @@ function Signature({ courses, handleSignatureStatus }) {
           <PadSignature
             courseName={course.title}
             courseId={courseId}
-            userFirstName={"firstName"}
-            userLastName={"lastName"}
+            userFirstName={username}
+            userLastName={lastname}
             userId={session?.user?.id}
-            //setCertificateGenerated={setCertificateGenerated}
-            //setCertificateUrl={setCertificateUrl}
             handleSignatureStatus={handleSignatureStatus}
-            //certificateUrl={certificateUrl}
           />
         </>
       )}
