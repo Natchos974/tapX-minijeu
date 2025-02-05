@@ -13,7 +13,7 @@ function IframeComponent({ url }) {
           <div className="loader"></div>
         </div>
       )}
-      <div className="w-full h-0 pb-[56.25%]">
+      <div className="w-full h-screen md:w-full md:h-0 md:pb-[56.25%]">
         <iframe
           src={url}
           title="3d viewer of the building"
