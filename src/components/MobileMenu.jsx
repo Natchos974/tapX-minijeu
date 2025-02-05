@@ -5,12 +5,20 @@ import { NavLink } from "react-router-dom";
 function MobileMenu() {
   const studentRoutes = [
     {
-      label: "Mes cours",
+      label: "Dashboard",
       href: "/",
     },
     {
-      label: "Catalogue de cours",
-      href: "/search",
+      label: "Détails par zone",
+      href: "/zone",
+    },
+    {
+      label: "Vue drone",
+      href: "/vue-drone",
+    },
+    {
+      label: "Vue intérieure",
+      href: "/vue-interieure",
     },
   ];
   const [navOpen, setNavOpen] = useState(false);

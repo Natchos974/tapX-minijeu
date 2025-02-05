@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { Button } from "./ui/button";
+import { useSession } from "../utils/useSession";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function Admin() {
   const [login, setLogin] = useState("");
@@ -11,7 +14,18 @@ function Admin() {
   const [classes, setClasses] = useState([]);
   const [selectedClassId, setSelectedClassId] = useState("");
   const [isProfessor, setisProfessor] = useState(false);
+  const navigate = useNavigate();
+  const session = useSession();
 
+  useEffect(() => {
+    if (session) {
+      const jwt = jwtDecode(session.access_token);
+      const isAdmin = jwt.user_role === "admin";
+      if (!isAdmin) {
+        navigate("/");
+      }
+    }
+  }, [session, navigate]);
   useEffect(() => {
     const fetchClasses = async () => {
       const { data, error } = await supabase.from("classe").select("id, name");
@@ -67,6 +81,9 @@ function Admin() {
 
   return (
     <div className="flex flex-col gap-4 rounded-md bg-slate-200 px-3 py-5 w-full md:w-fit">
+      <p className="text-muted-foreground">
+        Cette page n est accessible qu aux admins
+      </p>
       <h1 className="text-lg font-bold">Create User</h1>
       {success && (
         <p className="text-muted-foreground">User created successfully!</p>

@@ -1,18 +1,15 @@
 import { cn } from "@/lib/utils";
-import { BookOpen } from "lucide-react";
+
 import { useTransition } from "react";
 import Badge from "./Badge";
-import { useLocation, useNavigate } from "react-router-dom";
-import ProgressBar from "./ProgressBar";
+import { useNavigate } from "react-router-dom";
 
-function CourseCard({ id, title, image, chapters, progress, note, signature }) {
+function CourseCard({ id, title, image, isValidated }) {
   const [isPending, startTransition] = useTransition();
-  const { pathname } = useLocation();
-  const isHomePage = pathname === "/" ? true : false;
   const navigate = useNavigate();
   const onClick = () => {
     startTransition(() => {
-      navigate(`/courses/${id}`);
+      navigate(`/zone/${id}`);
     });
   };
 
@@ -32,19 +29,12 @@ function CourseCard({ id, title, image, chapters, progress, note, signature }) {
         <h2 className="text-lg md:text-base font-medium pt-5 min-h-[70px] group-hover:text-sky-700 transition line-clamp-2">
           {title}
         </h2>
-        <div className="flex gap-x-1 items-center">
-          <BookOpen size={20} color="gray"></BookOpen>
-          <span className="text-sm text-gray-600">{chapters} chapitre(s)</span>
-        </div>
-        {isHomePage && (
-          <>
-            <ProgressBar progress={progress} />
-            <div className="flex gap-3">
-              <Badge type="courseSignature" isAchieved={signature} />
-              <Badge type="teacherValidation" isAchieved={note} />
-            </div>
-          </>
-        )}
+
+        <>
+          <div className="flex gap-3">
+            <Badge type="zoneValidation" isAchieved={isValidated} />
+          </div>
+        </>
       </div>
     </div>
   );

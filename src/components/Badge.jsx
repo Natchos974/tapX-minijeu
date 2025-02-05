@@ -1,4 +1,4 @@
-import { CheckCircle, Signature } from "lucide-react";
+import { CheckCheck, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -10,12 +10,12 @@ import {
 const Badge = ({ type, isAchieved }) => {
   const getBadgeContent = () => {
     switch (type) {
-      case "courseSignature":
+      case "zoneValidation":
         return {
           message: isAchieved
-            ? "Vous avez déjà signé le cours !"
-            : "Vous n'avez pas encore signé le cours",
-          icon: Signature,
+            ? "Cette zone a déjà été validée !"
+            : "Cette zone n'a pas encore été validée",
+          icon: CheckCheck,
         };
       case "teacherValidation":
         return {

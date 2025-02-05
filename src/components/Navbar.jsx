@@ -1,14 +1,11 @@
 //import { useEffect, useState } from "react";
 //import { supabase } from "../utils/supabaseClient";
-import { useSession } from "../utils/useSession";
 import { Link } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
-import { Button } from "./ui/button";
 
 function Navbar() {
-  const session = useSession();
-  const { user } = session;
-  const isTeacher = user.user_metadata?.isProfessor ? true : false;
+  //const session = useSession();
+  //const { user } = session;
   //const [png, setPng] = useState(null);
   //const [username, setUsername] = useState(null);
   //const [avatarUrl, setAvatarUrl] = useState(null);
@@ -61,13 +58,6 @@ function Navbar() {
   return (
     <div className="p-4 z-50 border-b h-full font-semibold flex gap-5 bg-white shadow-sm justify-between md:justify-end items-center">
       <MobileMenu className="justify-start" />
-      {isTeacher && (
-        <Button asChild>
-          <Link variant="outline" to={"/teacher"}>
-            Espace professeur
-          </Link>
-        </Button>
-      )}
       <div className="relative">
         <Link to="/account">
           <img
