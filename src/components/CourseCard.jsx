@@ -19,14 +19,14 @@ function CourseCard({ id, title, image, isValidated }) {
       className={cn("cursor-pointer", isPending && "cursor-wait")}
     >
       <div className="group shadow-sm transition overflow-hidden border hover:border-slate-300 rounded-lg p-3 h-full">
-        <div className="w-full rounded-md md:aspect-video overflow-hidden">
+        <div className="w-full md:aspect-video overflow-hidden">
           <img
             src={image}
             alt={title}
             className="object-contain w-[100px] md:w-full md:h-full"
           />
         </div>
-        <h2 className="text-lg md:text-base font-medium pt-5 min-h-[70px] group-hover:text-sky-700 transition line-clamp-2">
+        <h2 className="text-lg text-slate-600 md:text-base font-medium pt-5 min-h-[70px] group-hover:text-sky-700 transition line-clamp-2">
           {title}
         </h2>
 

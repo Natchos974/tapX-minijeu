@@ -6,6 +6,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/*  Typography  */
+.headline-1 {
+  @apply text-xl md:text-3xl my-2 pb-1 leading-tight font-semibold;
+}
+
+.headline-2 {
+  @apply flex text-lg md:text-2xl my-2 pb-3 leading-tight font-semibold text-slate-500;
+}
+
 .input-field {
   @apply p-2 rounded-xl border w-full;
 }
@@ -19,7 +28,7 @@ html {
 }
 
 .navbar {
-  @apply absolute top-full mt-2 left-0 text-left min-w-40 p-4 bg-zinc-100 rounded-2xl scale-90 isolate invisible transition-[opacity,transform,filter];
+  @apply absolute top-full py-2 pr-2 rounded-md left-0 text-left bg-white min-w-40 isolate invisible;
 }
 .navbar.active {
   @apply opacity-100 scale-100 blur-0 visible;
@@ -28,12 +37,6 @@ html {
   @apply grid items-center h-9 px-4 text-lg font-medium tracking-wide text-black hover:text-zinc-700 transition-colors;
 }
 
-/*.responsive-iframe-container {
-  @apply relative w-full h-screen md:w-[100%] md:pb-[56.25%] md:h-0 overflow-hidden;
-}
-.responsive-iframe-container iframe {
-  @apply absolute top-0 left-0 w-[100%] h-[100%] z-0;
-}*/
 .responsive-iframe-container {
   position: relative;
   width: 100%;
@@ -52,6 +55,14 @@ html {
 
 .loader {
   @apply border-8 border-t-8 border-gray-200 border-t-blue-500 rounded-full w-12 h-12 animate-spin;
+}
+
+.view360-image {
+  @apply rounded-lg;
+}
+
+.view360-wrapper {
+  @apply rounded-lg;
 }
 
 @keyframes spin {

@@ -1,15 +1,14 @@
 import { SkeletonCard } from "./SkeletonCard";
 
-function Home({ isLoading, data }) {
+function Home({ isLoading }) {
   return (
     <>
       {isLoading ? (
         <SkeletonCard />
       ) : (
-        <div className="flex flex-col gap-2">
-          <p className="text-muted-foreground">
-            Voici la page d accueil du dashboard
-          </p>
+        <div className="flex flex-col gap-2 w-full">
+          <p className="headline-2">Accueil</p>
+          <img src="/planMasse.png" width="100%" />
         </div>
       )}
     </>

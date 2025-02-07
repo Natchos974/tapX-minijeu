@@ -19,11 +19,12 @@ function Zone({ isLoading }) {
 
   return (
     <>
+      <h1 className="headline-2">Détails des différentes zones du projet : </h1>
       {isLoading ? (
         <SkeletonCard />
       ) : zone.length === 0 ? (
         <p className="text-muted-foreground">
-          Vous ne suivez aucun cours pour le moment
+          Aucune zone n&apos;a été ajoutée au projet pour le moment...
         </p>
       ) : (
         <div className="grid w-full sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4">

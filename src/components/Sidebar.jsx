@@ -1,9 +1,9 @@
 import {
   ChevronLeft,
   ChevronRight,
-  Compass,
   House,
   Layout,
+  LayoutList,
   LockIcon,
   LogOut,
   MapPinHouse,
@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       href: "/",
     },
     {
-      icon: Compass,
+      icon: LayoutList,
       label: "Détails par zone",
       href: "/zone",
     },
@@ -57,6 +57,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       <Link to={"/"} className="pb-4 px-3 w-full">
         <Logo isOpen={isOpen} />
       </Link>
+
       <div className="flex flex-col w-full pb-3">
         {Routes.map((route) => (
           <SidebarItems
