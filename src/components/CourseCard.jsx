@@ -26,7 +26,7 @@ function CourseCard({ id, title, image, isValidated }) {
             className="object-contain w-[100px] md:w-full md:h-full"
           />
         </div>
-        <h2 className="text-lg text-slate-600 md:text-base font-medium pt-5 min-h-[70px] group-hover:text-sky-700 transition line-clamp-2">
+        <h2 className="text-lg text-slate-600 md:text-base font-medium pt-5  group-hover:text-sky-700 transition line-clamp-2">
           {title}
         </h2>
 

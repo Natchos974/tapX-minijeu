@@ -30,7 +30,7 @@ export default function Auth() {
     <div className="flex justify-center h-screen items-center px-2">
       <div className="flex flex-col gap-6 border p-7 rounded-md">
         <h1 className="text-lg md:text-3xl font-bold">
-          This is a template to create a Supabase + React app
+          This is a demo app to showcase any kind of dashboard
         </h1>
         <p className="md:text-lg font-medium ">Sign in to access the app</p>
         <form className="flex flex-col gap-4" onSubmit={handleLogin}>

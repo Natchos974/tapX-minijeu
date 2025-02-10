@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
-function DashboardLayout() {
+function DashboardLayout({ data }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <>
@@ -14,10 +14,10 @@ function DashboardLayout() {
             isOpen ? "pl-[200px]" : "pl-0"
           }`}
         >
-          <Navbar isOpen={isOpen} />
+          <Navbar isOpen={isOpen} data={data} />
         </div>
         <div className="hidden md:flex h-full flex-col fixed inset-y-0 z-30">
-          <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+          <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
         </div>
         <main
           className={`md:pl-[100px] pt-[80px] min-h-[100vh] mb-5 px-2 items-center flex flex-col md:items-start z-0 ${

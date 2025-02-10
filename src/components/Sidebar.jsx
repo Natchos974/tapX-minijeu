@@ -5,7 +5,7 @@ import {
   Layout,
   LayoutList,
   LockIcon,
-  LogOut,
+  LogOutIcon,
   MapPinHouse,
   Rotate3D,
 } from "lucide-react";
@@ -15,10 +15,12 @@ import { Link } from "react-router-dom";
 import { useSession } from "../utils/useSession";
 import { jwtDecode } from "jwt-decode";
 import SidebarItems from "./SidebarItems";
+import { useData } from "../utils/useData";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
   const session = useSession();
-
+  const { datas } = useData();
+  const zones = datas?.zones;
   const Routes = [
     {
       icon: House,
@@ -66,6 +68,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             icon={route.icon}
             label={route.label}
             isOpen={isOpen}
+            subItems={Routes.href == "zone" ? zones : ""}
           />
         ))}
       </div>
@@ -80,17 +83,16 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           />
         )}
       </div>
-      <div className="flex flex-col w-full h-full">
-        <button
-          type="button"
+      <div className="flex flex-col w-full">
+        <SidebarItems
+          label="Se déconnecter"
+          icon={LogOutIcon}
+          isOpen={isOpen}
+          href={null}
           onClick={() => supabase.auth.signOut()}
-          className="flex items-center text-red-500 pl-3 gap-x-2 font-[500] transition-all  hover:bg-gray-200/80"
-        >
-          <div className="flex items-center gap-x-2 py-4">
-            <LogOut size={30} />
-            {isOpen && <p>Se déconnecter</p>}
-          </div>
-        </button>
+        />
+      </div>
+      <div className="flex flex-col w-full h-full">
         <div className="mt-auto flex w-full items-center justify-end font-semibold text-l transition-all  hover:pr-2">
           <button type="button" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <ChevronLeft /> : <ChevronRight />}

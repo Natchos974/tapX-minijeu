@@ -4,8 +4,8 @@ function Footer() {
       <p>
         Développé par{" "}
         <a
-          href="https://portfolio.apps.3d-immo974.com/"
-          target="_blank"
+          //href="https://portfolio.apps.3d-immo974.com/"
+          //target="_blank"
           className="font-bold hover:underline"
           rel="noreferrer"
         >

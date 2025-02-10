@@ -2,10 +2,12 @@
 //import { supabase } from "../utils/supabaseClient";
 import { Link } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
+//import { useSession } from "../utils/useSession";
 
-function Navbar() {
+function Navbar({ data }) {
   //const session = useSession();
-  //const { user } = session;
+  //console.log(session);
+
   //const [png, setPng] = useState(null);
   //const [username, setUsername] = useState(null);
   //const [avatarUrl, setAvatarUrl] = useState(null);
@@ -57,7 +59,7 @@ function Navbar() {
   );*/
   return (
     <div className="p-4 z-50 border-b h-full font-semibold flex gap-5 bg-white shadow-sm justify-between md:justify-end items-center">
-      <MobileMenu className="justify-start" />
+      <MobileMenu data={data} className="justify-start" />
       <div className="relative">
         <Link to="/account">
           <img

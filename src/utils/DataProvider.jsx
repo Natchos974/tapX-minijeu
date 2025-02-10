@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { useSession } from "../utils/useSession";
-import { supabase } from "../utils/supabaseClient";
+import { useState, useEffect } from "react";
+import { useSession } from "./useSession";
+import { supabase } from "./supabaseClient";
+import { DataContext } from "./DataContext";
 
-const InitialLoader = ({ children }) => {
+export const DataProvider = ({ children }) => {
   const [datas, setDatas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const session = useSession();
@@ -14,9 +15,9 @@ const InitialLoader = ({ children }) => {
           .from("project")
           .select(
             `
-      *,
-      zones (*)
-    `
+            *,
+            zones (*)
+          `
           )
           .eq("id", projectId)
           .single();
@@ -27,7 +28,6 @@ const InitialLoader = ({ children }) => {
       }
     }
 
-    // Appel à l'API pour récupérer les cours de l'utilisateur
     fetchData(1)
       .then((data) => {
         setDatas(data);
@@ -39,14 +39,9 @@ const InitialLoader = ({ children }) => {
       });
   }, [session]);
 
-  /*if (isLoading) {
-    return <div>Loading...</div>; // Afficher un indicateur de chargement
-  }*/
-
-  return children({
-    datas,
-    isLoading,
-  });
+  return (
+    <DataContext.Provider value={{ datas, isLoading }}>
+      {children}
+    </DataContext.Provider>
+  );
 };
-
-export default InitialLoader;
