@@ -14,7 +14,7 @@ function ZoneDetails() {
       <Button asChild variant="outline" className="flex w-fit">
         <Link to="/zone">
           <ArrowLeft />
-          Retour
+          Retour listing zones
         </Link>
       </Button>
       <h1 className="headline-2">Voici le détail de la zone {zone?.name}</h1>
@@ -22,6 +22,13 @@ function ZoneDetails() {
         Insérer ici les éléments de détails de la zone (visuels, rendus 3d,
         listing du mobilier...){" "}
       </p>
+      <div className="w-full md:aspect-video overflow-hidden">
+        <img
+          src={zone?.main_picture}
+          alt={zone?.name}
+          className="object-contain w-full h-full"
+        />
+      </div>
     </div>
   );
 }
