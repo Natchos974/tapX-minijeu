@@ -4,6 +4,7 @@ import { SpinViewer } from "@egjs/view360";
 function Viewer3d() {
   const containerRef = useRef(null);
   const [angle, setAngle] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   let spinView;
 
   // Initialisation du SpinViewer dans useEffect
@@ -16,6 +17,7 @@ function Viewer3d() {
         width: "100%",
       });
       containerRef.current.on("load", () => {
+        setIsLoading(false);
         containerRef.current.spinBy(360, { duration: 3000 });
       });
       containerRef.current.on("change", (event) => {
@@ -47,6 +49,12 @@ function Viewer3d() {
         curseur !{" "}
       </p>
       <div className="max-w-[1200px]">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
+            <div className="loader"></div>{" "}
+            {/* Remplacez par votre composant de loader */}
+          </div>
+        )}
         <div
           ref={containerRef}
           style={{
