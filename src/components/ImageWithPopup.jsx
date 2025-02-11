@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ImageWithPopup = ({ imageSrc, zones }) => {
   const [hoveredZone, setHoveredZone] = useState(null);
-
+  const navigate = useNavigate();
   const handleMouseEnter = (zone) => {
     setHoveredZone(zone);
   };
@@ -10,7 +11,9 @@ const ImageWithPopup = ({ imageSrc, zones }) => {
   const handleMouseLeave = () => {
     setHoveredZone(null);
   };
-
+  const handleClick = (zone) => {
+    navigate(`/zone/${zone.id}`);
+  };
   return (
     <div className="relative w-full max-w-full h-auto">
       <img
@@ -30,6 +33,7 @@ const ImageWithPopup = ({ imageSrc, zones }) => {
           }}
           onMouseEnter={() => handleMouseEnter(zone)}
           onMouseLeave={handleMouseLeave}
+          onClick={() => handleClick(zone)}
           className="cursor-pointer border-red-400 border-[3px] md:border-[5px] border-dashed"
         ></div>
       ))}
@@ -42,6 +46,9 @@ const ImageWithPopup = ({ imageSrc, zones }) => {
             transform: "translateX(-50%)",
           }}
           className="bg-slate-50 p-2 rounded shadow-md mt-2"
+          onClick={() => {
+            console.log("Hello there");
+          }}
         >
           <h2 className="text-lg text-slate-600 font-semibold">
             {hoveredZone.content}

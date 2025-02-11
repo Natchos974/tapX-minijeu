@@ -16,6 +16,7 @@ function Home() {
       height: 35,
       content: "Terrasse 2",
       description: "Insérez ici la description de la zone...",
+      id: 1,
     },
     {
       top: 18,
@@ -24,6 +25,7 @@ function Home() {
       height: 42,
       content: "Trattoria",
       description: "Insérez ici la description de la zone...",
+      id: 2,
     },
     {
       top: 18,
@@ -32,6 +34,7 @@ function Home() {
       height: 42,
       content: "Boulangerie",
       description: "Insérez ici la description de la zone...",
+      id: 4,
     },
     {
       top: 18,
@@ -40,6 +43,7 @@ function Home() {
       height: 42,
       content: "Terrasse 4",
       description: "Insérez ici la description de la zone...",
+      id: 3,
     },
   ];
   return (
@@ -52,28 +56,9 @@ function Home() {
             Découvrez le projet et ses différentes zones
           </h1>
           <p className="flex text-muted-foreground">
-            Accéder aux différentes zones en cliquant sur le bouton
-            correspondant
-          </p>
-          <div>
-            {zones && (
-              <div className="flex flex-col w-full md:flex-row gap-2">
-                {zones.map((zone) => (
-                  <Button
-                    key={zone.id}
-                    asChild
-                    variant="outline"
-                    className="flex w-full"
-                  >
-                    <Link to={`/zone/${zone.id}`}>{zone.name}</Link>
-                  </Button>
-                ))}
-              </div>
-            )}
-          </div>
-          <p className="flex text-muted-foreground">
             Passez votre souris au dessus de chaque zone pour obtenir des
-            informations
+            informations, cliquez pour accéder à la fiche détaillée de chaque
+            zone
           </p>
           <div>
             <ImageWithPopup imageSrc={datas?.plan_masse} zones={areas} />
