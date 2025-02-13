@@ -1,13 +1,11 @@
-import { Link } from "react-router-dom";
 import { SkeletonCard } from "./SkeletonCard";
-import { Button } from "./ui/button";
 import { useData } from "../utils/useData";
 import ImageSlider from "./ImageSlider";
 import ImageWithPopup from "./ImageWithPopup";
+import { Suspense } from "react";
 
 function Home() {
   const { datas, isLoading } = useData();
-  const zones = datas?.zones;
   const areas = [
     {
       top: 27,
@@ -60,10 +58,9 @@ function Home() {
             informations, cliquez pour accéder à la fiche détaillée de chaque
             zone
           </p>
-          <div>
+          <Suspense fallback={<h2>🌀 Loading...</h2>}>
             <ImageWithPopup imageSrc={datas?.plan_masse} zones={areas} />
-          </div>
-
+          </Suspense>
           <ImageSlider imagesArray={datas?.pictures_array} />
         </div>
       )}

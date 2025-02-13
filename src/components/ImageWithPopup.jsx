@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const ImageWithPopup = ({ imageSrc, zones }) => {
   const [hoveredZone, setHoveredZone] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const navigate = useNavigate();
   const handleMouseEnter = (zone) => {
     setHoveredZone(zone);
@@ -14,29 +15,32 @@ const ImageWithPopup = ({ imageSrc, zones }) => {
   const handleClick = (zone) => {
     navigate(`/zone/${zone.id}`);
   };
+
   return (
     <div className="relative w-full max-w-full h-auto">
       <img
         src={imageSrc}
         alt="Interactive"
         className="w-full h-auto object-cover rounded-md"
+        onLoad={() => setIsLoaded(true)}
       />
-      {zones.map((zone, index) => (
-        <div
-          key={index}
-          style={{
-            position: "absolute",
-            top: `${zone.top}%`,
-            left: `${zone.left}%`,
-            width: `${zone.width}%`,
-            height: `${zone.height}%`,
-          }}
-          onMouseEnter={() => handleMouseEnter(zone)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => handleClick(zone)}
-          className="cursor-pointer border-red-400 border-[3px] md:border-[5px] border-dashed"
-        ></div>
-      ))}
+      {isLoaded &&
+        zones.map((zone, index) => (
+          <div
+            key={index}
+            style={{
+              position: "absolute",
+              top: `${zone.top}%`,
+              left: `${zone.left}%`,
+              width: `${zone.width}%`,
+              height: `${zone.height}%`,
+            }}
+            onMouseEnter={() => handleMouseEnter(zone)}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => handleClick(zone)}
+            className="cursor-pointer border-red-400 border-[1px] md:border-[5px] border-dashed"
+          ></div>
+        ))}
       {hoveredZone && (
         <div
           style={{
@@ -45,10 +49,7 @@ const ImageWithPopup = ({ imageSrc, zones }) => {
             left: `${hoveredZone.left}%`,
             transform: "translateX(-50%)",
           }}
-          className="bg-slate-50 p-2 rounded shadow-md mt-2"
-          onClick={() => {
-            console.log("Hello there");
-          }}
+          className="bg-slate-50 p-2 z-50 rounded shadow-md mt-2 invisible md:visible"
         >
           <h2 className="text-lg text-slate-600 font-semibold">
             {hoveredZone.content}

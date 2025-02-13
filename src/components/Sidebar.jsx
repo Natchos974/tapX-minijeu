@@ -80,6 +80,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             icon={LockIcon}
             href="/admin"
             isOpen={isOpen}
+            onClick={() => {
+              setIsOpen(false);
+              console.log(isOpen);
+            }}
           />
         )}
       </div>
