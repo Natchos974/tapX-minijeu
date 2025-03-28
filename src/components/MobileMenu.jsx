@@ -35,7 +35,7 @@ function MobileMenu() {
                 ? "pending-link"
                 : isActive
                 ? "active-link"
-                : "flex items-center text-slate-500 text-lg pl-6 gap-x-2 font-[500] transition-all hover:text-slate-600"
+                : "flex items-center text-slate-500 text-lg pl-6 gap-x-2 font-[500] hover:text-slate-600"
             }
           >
             {item.label}

@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 function DashboardLayout({ data }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef(null);
 
   useEffect(() => {

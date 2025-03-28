@@ -2,6 +2,7 @@ import { useSession } from "../utils/useSession";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
+import Form from "./Form";
 
 function Admin() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Admin() {
         ajout de zones, validation des zones, ajout de mobilier, de
         documents....)
       </p>
+      <Form />
     </div>
   );
 }

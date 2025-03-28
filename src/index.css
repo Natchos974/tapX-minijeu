@@ -29,10 +29,10 @@ html {
 }
 
 .navbar {
-  @apply absolute top-full py-2 pr-2 rounded-md left-0 text-left bg-white min-w-40 isolate invisible;
+  @apply absolute top-full py-2 pr-2 rounded-md left-0 text-left bg-white min-w-40 invisible;
 }
 .navbar.active {
-  @apply opacity-100 scale-100 blur-0 visible;
+  @apply visible;
 }
 .nav-link {
   @apply grid items-center h-9 px-4 text-lg font-medium tracking-wide text-black hover:text-zinc-700 transition-colors;
