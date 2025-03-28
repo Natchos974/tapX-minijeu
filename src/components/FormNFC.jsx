@@ -66,7 +66,7 @@ const FormNFC = ({ id }) => {
       </h1>
       <p className="text-muted-foreground text-sm">
         *Si vous ne trouvez pas votre business, ajoutez simplement la ville et
-        le code postale afin d'afiner la recherche
+        le code postale afin d afiner la recherche
       </p>
       <form
         onSubmit={handleSubmit}
