@@ -1,9 +1,7 @@
-// CheckURL.js
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 import { supabase } from "../utils/supabaseClient";
-import FormURL from "./FormURL.Jsx";
+import FormNFC from "./FormNFC";
 
 const CheckURL = () => {
   const { id } = useParams();
@@ -36,7 +34,7 @@ const CheckURL = () => {
     }
   }, [urlExists, url]);
 
-  return !urlExists ? <FormURL id={id} /> : null;
+  return !urlExists ? <FormNFC id={id} /> : null;
 };
 
 export default CheckURL;
