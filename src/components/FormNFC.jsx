@@ -11,7 +11,7 @@ const FormNFC = ({ id }) => {
   useEffect(() => {
     // Load the Google Places API script
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyALZYAMjkHVxOv4jt_7Y-l9ZDWoiInimyY&libraries=places`;
     script.async = true;
     script.onload = initializeAutocomplete;
     document.head.appendChild(script);
