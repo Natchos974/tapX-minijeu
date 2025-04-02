@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import FormNFC from "./FormNFC";
+//import FormNFCwithMaps from "./FormNFC_withMaps";
 
 const CheckURL = () => {
   const { id } = useParams();
+  const isNumber = /^\d+$/.test(id);
   const [urlExists, setUrlExists] = useState(false);
   const [url, setUrl] = useState("");
 
@@ -14,7 +16,7 @@ const CheckURL = () => {
         .from("urls")
         .select("URL_redirection")
         .eq("id", id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Error fetching URL:", error);
@@ -33,8 +35,15 @@ const CheckURL = () => {
       window.location.href = url;
     }
   }, [urlExists, url]);
-
-  return !urlExists ? <FormNFC id={id} /> : null;
+  if (!isNumber) {
+    // Redirigez vers une page d'erreur ou affichez un message d'erreur
+    return <Navigate to="*" />;
+  }
+  return !urlExists ? (
+    <>
+      <FormNFC id={id} />
+    </>
+  ) : null;
 };
 
 export default CheckURL;

@@ -11,7 +11,7 @@ const FormURL = ({ id }) => {
   useEffect(() => {
     // Load the Google Places API script
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=places&loading=async`;
     script.async = true;
     script.onload = initializeAutocomplete;
     document.head.appendChild(script);
@@ -68,6 +68,7 @@ const FormURL = ({ id }) => {
         *Si vous ne trouvez pas votre business, ajoutez simplement la ville et
         le code postale afin d'afiner la recherche
       </p>
+
       <form
         onSubmit={handleSubmit}
         className="bg-white p-2 rounded shadow-md w-full"
@@ -78,7 +79,7 @@ const FormURL = ({ id }) => {
             type="text"
             placeholder="Cherchez votre business..."
             className="mt-1 block w-full rounded border border-gray-300 p-2"
-            required="true"
+            required={true}
           />
         </label>
         <button

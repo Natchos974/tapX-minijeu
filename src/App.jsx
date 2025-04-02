@@ -21,7 +21,7 @@ function App() {
       <DataProvider>
         <Routes>
           {/* Public Routes */}
-          <Route path="/:id" element={<CheckURL />} />
+          <Route path="/config/:id" element={<CheckURL />} />
 
           {/* Private Routes */}
           {session ? (

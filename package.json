@@ -12,11 +12,13 @@
   "dependencies": {
     "@egjs/view360": "^3.6.4",
     "@radix-ui/react-progress": "^1.1.1",
+    "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slider": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@supabase/supabase-js": "^2.47.12",
+    "@vis.gl/react-google-maps": "^1.5.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "h5p-standalone": "^3.8.0",
