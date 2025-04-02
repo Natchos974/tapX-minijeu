@@ -7,32 +7,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import MapComponent from "./MapComponent";
 
 const FormNFCwithMaps = ({ id }) => {
   const [userUrl, setUserUrl] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const [location, setLocation] = useState(null);
+  const [myPlace, setmyPlace] = useState(null);
   const [placeId, setPlaceId] = useState(null);
   const [name, setName] = useState("");
   const inputRef = useRef(null);
   const customLinkRef = useRef(null);
   const autoCompleteRef = useRef(null);
-  const mapRef = useRef(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  const [map, setMap] = useState(null);
-  const [marker, setMarker] = useState(null);
-  const [infoWindow, setInfowindow] = useState(null);
-  const [infowindowRef, setInfowindowRef] = useState(null);
 
   useEffect(() => {
+    setLocation(null);
     if (selectedOption === "google") {
       if (!scriptLoaded) {
         // Load the Google Places API script
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCHZMu6VFihyegwqqNP92lcu5floYe3TNI&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${
+          import.meta.env.VITE_GOOGLE_API_KEY
+        }&libraries=places`;
         script.async = true;
         script.onload = () => {
           setScriptLoaded(true);
-          initializeMap();
           initializeAutocomplete();
         };
         document.head.appendChild(script);
@@ -41,43 +41,10 @@ const FormNFCwithMaps = ({ id }) => {
           document.head.removeChild(script);
         };
       } else {
-        initializeMap();
         initializeAutocomplete();
       }
     }
   }, [selectedOption, scriptLoaded]);
-
-  /* useEffect(() => {
-    if (selectedOption === "google") {
-      initializeMap();
-      initializeAutocomplete();
-    }
-  }, [selectedOption, scriptLoaded]);*/
-
-  const initializeMap = () => {
-    if (!mapRef.current || !window.google) return;
-
-    const mapInstance = new window.google.maps.Map(mapRef.current, {
-      center: { lat: -21.115141, lng: 55.536384 },
-      zoom: 10,
-    });
-
-    setMap(mapInstance);
-    const infowindow = new window.google.maps.InfoWindow();
-    setInfowindow(infowindow);
-    const markerInstance = new window.google.maps.Marker({
-      map: mapInstance,
-    });
-
-    setMarker(markerInstance);
-
-    markerInstance.addListener("click", () => {
-      infowindow.open({
-        anchor: markerInstance,
-        mapInstance,
-      });
-    });
-  };
 
   const initializeAutocomplete = () => {
     if (!window.google || !inputRef.current) return;
@@ -93,6 +60,7 @@ const FormNFCwithMaps = ({ id }) => {
     });
     autoCompleteRef.current.addListener("place_changed", () => {
       const place = autoCompleteRef.current.getPlace();
+      setmyPlace(place);
       if (place.place_id) {
         console.log("place: ", place);
         setPlaceId(place.place_id);
@@ -100,33 +68,14 @@ const FormNFCwithMaps = ({ id }) => {
           `https://search.google.com/local/writereview?placeid=${place.place_id}`
         );
         setName(place.name);
-        if (!place.geometry || !place.geometry.location) {
-          // User entered the name of a Place that was not suggested and
-          // pressed the Enter key, or the Place Details request failed.
-          window.alert("No details available for input: '" + place.name + "'");
-          return;
-        }
-        if (place.geometry.viewport) {
-          console.log("I fitbound on this viewport", place.geometry.viewport);
-          console.log(map);
-
-          map.fitBounds(place.geometry.viewport);
-          map.setZoom(3);
-        } else {
-          map.setCenter(place.geometry.location);
-          map.setZoom(17);
-        }
-
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-        infoWindow.setContent(`
-            <div>
-              <strong>${place.name}</strong><br>
-              ${place.formatted_address}
-            </div>
-          `);
-        infoWindow.open(map, marker);
       }
+      if (!place.geometry || !place.geometry.location) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        window.alert("No details available for input: '" + place.name + "'");
+        return;
+      }
+      setLocation(place.geometry.location);
     });
   };
 
@@ -200,15 +149,14 @@ const FormNFCwithMaps = ({ id }) => {
                   required={true}
                 />
               </label>
-              <div
-                ref={mapRef}
-                className="h-[400px] w-full my-[20px] rounded-lg"
-              ></div>
-              <div ref={infowindowRef}>
-                <span id="place-name"></span>
-                <br />
-                <span id="place-address"></span>
-              </div>
+              {location && (
+                <MapComponent
+                  location={location}
+                  name={name}
+                  address={myPlace.formatted_address}
+                  placeId={placeId}
+                />
+              )}
               <button
                 type="submit"
                 className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 font-bold"
