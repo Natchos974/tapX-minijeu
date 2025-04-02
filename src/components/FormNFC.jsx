@@ -18,7 +18,6 @@ const FormNFC = ({ id }) => {
   const customLinkRef = useRef(null);
   const autoCompleteRef = useRef(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  console.log(import.meta.env.VITE_GOOGLE_API_KEY);
   useEffect(() => {
     if (selectedOption == "google" && !scriptLoaded) {
       // Load the Google Places API script
