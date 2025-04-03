@@ -8,6 +8,7 @@ const CheckURL = () => {
   const isNumber = /^\d+$/.test(id);
   const [urlExists, setUrlExists] = useState(false);
   const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(true); // État pour gérer le chargement
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,10 +19,13 @@ const CheckURL = () => {
         .maybeSingle();
 
       if (error) {
+        setLoading(false);
         console.error("Error fetching URL:", error);
       } else if (data) {
         setUrlExists(true);
         setUrl(data.URL_redirection);
+      } else {
+        setLoading(false);
       }
     };
 
@@ -37,6 +41,17 @@ const CheckURL = () => {
   if (!isNumber) {
     // Redirigez vers une page d'erreur ou affichez un message d'erreur
     return <Navigate to="*" />;
+  }
+  if (loading) {
+    // Afficher un indicateur de chargement
+    return (
+      <div className="w-full overflow-hidden">
+        <div className="h-1 bg-gray-200 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-yellow-500 h-full animate-load"></div>
+        </div>
+        <p className="w-full text-center mt-3">Chargement en cours...</p>
+      </div>
+    );
   }
   return !urlExists ? (
     <>
