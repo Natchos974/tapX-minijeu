@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import FormNFC from "./FormNFC";
 import FormNFCwithMaps from "./FormNFC_withMaps";
 
 const CheckURL = () => {

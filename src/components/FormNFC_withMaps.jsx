@@ -1,13 +1,8 @@
+/* eslint-disable no-useless-escape */
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import MapComponent from "./MapComponent";
+import Card from "./Card";
 
 const FormNFCwithMaps = ({ id }) => {
   const [userUrl, setUserUrl] = useState("");
@@ -20,6 +15,21 @@ const FormNFCwithMaps = ({ id }) => {
   const customLinkRef = useRef(null);
   const autoCompleteRef = useRef(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const cards = [
+    {
+      id: 1,
+      value: "google",
+      name: "Avis google",
+      description: "Rediriger vers une demande d'avis Google",
+    },
+    {
+      id: 2,
+      value: "custom_link",
+      name: "Lien customisé",
+      description:
+        "Rediriger vers une page facebook, instagram, tiktok, linkedIn... ou site perso",
+    },
+  ];
 
   useEffect(() => {
     setLocation(null);
@@ -57,6 +67,11 @@ const FormNFCwithMaps = ({ id }) => {
     );
     autoCompleteRef.current.setComponentRestrictions({
       country: ["fr", "re"],
+    });
+    inputRef.current.addEventListener("input", (event) => {
+      if (event.target.value.trim() === "") {
+        setLocation(null);
+      }
     });
     autoCompleteRef.current.addListener("place_changed", () => {
       const place = autoCompleteRef.current.getPlace();
@@ -114,27 +129,29 @@ const FormNFCwithMaps = ({ id }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5 justify-center max-w-[800px] p-5">
-      <h1 className="font-semibold">
-        Bienvenue dans la page de paramétrage de votre carte NFC...
+    <div className="flex flex-col gap-5 justify-center max-w-[800px] py-5 px-2 md:px-5">
+      <h1 className="font-semibold text-sm text-center md:text-base md:text-left">
+        Bienvenue dans la page de paramétrage de votre carte NFC, choisissez
+        l&apos;une des options ci-dessous
       </h1>
-      <Select onValueChange={(value) => setSelectedOption(value)}>
-        <SelectTrigger className="">
-          <SelectValue placeholder="Choisissez le type de lien souhaité" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="google">Demande d&apos;avis Google</SelectItem>
-          <SelectItem value="custom_link ">
-            Lien autres (page Insta, Tiktok, Facebook, ...)
-          </SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="gap-4 flex flex-col">
+        {cards.map((item) => (
+          <Card
+            key={item.id}
+            name={item.name}
+            description={item.description}
+            value={item.value}
+            setSelectedOption={setSelectedOption}
+            selectedOption={selectedOption}
+          />
+        ))}
+      </div>
       {selectedOption &&
         (selectedOption == "google" ? (
           <>
             <p className="text-muted-foreground text-sm">
               *Si vous ne trouvez pas votre business, ajoutez simplement la
-              ville et le code postale afin d afiner la recherche
+              ville et le code postale afin d&apos;affiner la recherche
             </p>
             <form
               onSubmit={handleSubmit}

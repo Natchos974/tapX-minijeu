@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 const MapComponent = ({ location, name, address, placeId }) => {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const infoWindowRef = useRef(null);
 
   useEffect(() => {
     if (!window.google || !location) return;
@@ -54,7 +53,7 @@ const MapComponent = ({ location, name, address, placeId }) => {
     };
   }, [location, address, name, placeId]);
 
-  return <div ref={mapRef} className="w-full h-[300px] my-5" />;
+  return <div ref={mapRef} className="w-full h-[300px] my-5 rounded-lg" />;
 };
 
 export default MapComponent;
