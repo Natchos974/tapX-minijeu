@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import FormNFCwithMaps from "./FormNFC_withMaps";
 import Loader from "./Loader";
+import Reboot from "./Reboot";
 
-const CheckURL = () => {
+function CheckReboot() {
   const { id } = useParams();
   const isNumber = /^\d+$/.test(id);
   const [urlExists, setUrlExists] = useState(false);
-  const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(true); // État pour gérer le chargement
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +23,7 @@ const CheckURL = () => {
         console.error("Error fetching URL:", error);
       } else if (data) {
         setUrlExists(true);
-        setUrl(data.URL_redirection);
+        setLoading(false);
       } else {
         setLoading(false);
       }
@@ -33,24 +32,16 @@ const CheckURL = () => {
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    if (urlExists && url) {
-      window.location.href = url;
-    }
-  }, [urlExists, url]);
   if (!isNumber) {
     // Redirigez vers une page d'erreur ou affichez un message d'erreur
     return <Navigate to="*" />;
   }
-  if (loading) {
-    // Afficher un indicateur de chargement
-    return <Loader />;
-  }
-  return !urlExists ? (
-    <>
-      <FormNFCwithMaps id={id} />
-    </>
-  ) : null;
-};
+  if (loading) return <Loader />;
+  return urlExists ? (
+    <Reboot />
+  ) : (
+    <div>Cette id n&apos;est associé à aucune URL dans la base de donnée</div>
+  );
+}
 
-export default CheckURL;
+export default CheckReboot;

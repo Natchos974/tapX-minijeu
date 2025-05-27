@@ -12,6 +12,9 @@ import Zone from "./components/Zone";
 import ZoneDetails from "./components/ZoneDetails";
 import { DataProvider } from "./utils/DataProvider";
 import CheckURL from "./components/CheckURL";
+import CheckReboot from "./components/CheckReboot";
+import Test from "./components/Test";
+import Simulator from "./components/Simulator";
 
 function App() {
   const session = useSession();
@@ -22,6 +25,9 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/config/:id" element={<CheckURL />} />
+          <Route path="/config/reboot/:id" element={<CheckReboot />} />
+          <Route path="/formation-react" element={<Test />} />
+          <Route path="/scpi-simulator" element={<Simulator />} />
 
           {/* Private Routes */}
           {session ? (

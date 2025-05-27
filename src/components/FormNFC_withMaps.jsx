@@ -11,6 +11,8 @@ const FormNFCwithMaps = ({ id }) => {
   const [myPlace, setmyPlace] = useState(null);
   const [placeId, setPlaceId] = useState(null);
   const [name, setName] = useState("");
+  const [urlSetup, setUrlSetup] = useState(false);
+  const [urlSent, setUrlSent] = useState(null);
   const inputRef = useRef(null);
   const customLinkRef = useRef(null);
   const autoCompleteRef = useRef(null);
@@ -55,6 +57,11 @@ const FormNFCwithMaps = ({ id }) => {
       }
     }
   }, [selectedOption, scriptLoaded]);
+  useEffect(() => {
+    if (urlSetup && urlSent) {
+      window.location.href = urlSent;
+    }
+  }, [urlSetup, urlSent]);
 
   const initializeAutocomplete = () => {
     if (!window.google || !inputRef.current) return;
@@ -116,7 +123,7 @@ const FormNFCwithMaps = ({ id }) => {
 
     const urlSent =
       selectedOption == "google" ? userUrl : customLinkRef.current.value;
-    console.log(urlSent);
+
     const { error } = await supabase
       .from("urls")
       .insert([{ id, plaque_id: id, URL_redirection: urlSent, name: name }]);
@@ -125,6 +132,8 @@ const FormNFCwithMaps = ({ id }) => {
       console.error("Erreur lors de l'appairage de l'URL:", error);
     } else {
       alert("La carte a été paramétrée avec succès!");
+      setUrlSetup(true);
+      setUrlSent(urlSent);
     }
   };
 
