@@ -133,10 +133,10 @@ const FormNFCwithMaps = ({ id }) => {
     const isConfirmed =
       selectedOption === "google"
         ? window.confirm(
-            `Voici le lieu que vous allez paramétrer: ${name}. \nConfirmez vous ? \nAttention, tout changement ultérieur sera facturé 4€`
+            `Voici le lieu que vous allez paramétrer: \n${name}.\n\nConfirmez vous ?\nAttention, tout changement ultérieur sera facturé 4€`
           )
         : window.confirm(
-            `Voici l'url que vous allez paramétrer: ${urlSent}. \nConfirmez vous ? \nAttention, tout changement ultérieur sera facturé 4€`
+            `Voici l'url que vous allez paramétrer: \n${urlSent}\n\nConfirmez vous ?\nAttention, tout changement ultérieur sera facturé 4€`
           );
     if (isConfirmed) {
       const { error } = await supabase
@@ -154,12 +154,17 @@ const FormNFCwithMaps = ({ id }) => {
   };
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-slate-200 to-transparent">
-      <div className="flex flex-col gap-5 justify-center max-w-[800px] py-5 px-2 md:px-5">
-        <h1 className="text-sm font-bold md:text-3xl text-center">
-          Choisir le TapX à configurer:
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 mx-2 md:m-auto gap-2">
-          {selectedCard ? (
+      <div className="flex flex-col align-middle items-center gap-5 max-w-[800px] pb-5 px-2 md:px-5">
+        <img
+          src="/tapx-logo.png"
+          alt="logo-tapx"
+          className="max-w-[190px] md:max-w-[400px] self-center"
+        />
+        {selectedCard ? (
+          <div className="flex flex-col gap-2">
+            <span className="text-sm md:text-base text-muted-foreground">
+              Pour retourner en arrière, cliquez sur la carte
+            </span>
             <Card
               key={selectedCard.type}
               type={selectedCard.type}
@@ -167,29 +172,33 @@ const FormNFCwithMaps = ({ id }) => {
               setSelectedOption={setSelectedOption}
               selectedOption={selectedOption}
             />
-          ) : (
-            cards.map((item) => (
-              <Card
-                key={item.id}
-                type={item.type}
-                file={item.file}
-                setSelectedOption={setSelectedOption}
-                selectedOption={selectedOption}
-              />
-            ))
-          )}
-        </div>
+          </div>
+        ) : (
+          <>
+            <h1 className="text-lg font-bold md:text-3xl text-center">
+              Choisir le TapX à configurer:
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 mx-4 md:m-auto gap-2 md:gap-4">
+              {cards.map((item) => (
+                <Card
+                  key={item.id}
+                  type={item.type}
+                  file={item.file}
+                  setSelectedOption={setSelectedOption}
+                  selectedOption={selectedOption}
+                />
+              ))}
+            </div>
+          </>
+        )}
         {selectedOption &&
           (selectedOption == "google" ? (
-            <>
+            <div className="p-2">
               <p className="text-muted-foreground text-sm">
                 *Si vous ne trouvez pas votre business, ajoutez simplement la
                 ville et le code postale afin d&apos;affiner la recherche
               </p>
-              <form
-                onSubmit={handleSubmit}
-                className="bg-white p-2 rounded shadow-md w-full"
-              >
+              <form onSubmit={handleSubmit} className="w-full">
                 <label className="block mb-4">
                   <input
                     ref={inputRef}
@@ -209,30 +218,30 @@ const FormNFCwithMaps = ({ id }) => {
                 )}
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 font-bold"
+                  className="w-full border border-black text-black py-2 rounded-full hover:bg-black hover:text-white font-bold"
                 >
                   Envoyer
                 </button>
               </form>
-            </>
+            </div>
           ) : (
             <>
-              <form onSubmit={handleSubmit} className=" p-2 rounded w-full">
-                <label className="flex mb-4 gap-2 items-center">
-                  <span className="text-sm md:text-lg">
+              <form onSubmit={handleSubmit} className="p-2 rounded w-full">
+                <label className="flex flex-col items-start md:flex-row mb-4 gap-2 md:items-center">
+                  <span className="text-slate-700 font-semibold text-sm md:text-lg">
                     {selectedCard.urlPrefix}
                   </span>
                   <input
                     ref={customLinkRef}
                     type="text"
-                    placeholder="identifiant de la page"
+                    placeholder="identifiant de la page à ajouter à l'url"
                     className="mt-1 block w-full rounded border border-gray-300 p-2 text-sm md:text-lg"
                     required={true}
                   />
                 </label>
                 <button
                   type="submit"
-                  className="w-full border border-black text-black py-2 rounded-full hover:bg-slate-400 font-bold"
+                  className="w-full border border-black text-black py-2 rounded-full font-bold hover:bg-black hover:text-white "
                 >
                   Envoyer
                 </button>
