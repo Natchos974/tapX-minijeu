@@ -1,22 +1,19 @@
 import { cn } from "../lib/utils";
 
-function Card({ name, description, value, selectedOption, setSelectedOption }) {
+function Card({ type, file, selectedOption, setSelectedOption }) {
   const onClick = (value) => {
-    setSelectedOption(value);
+    selectedOption ? setSelectedOption(null) : setSelectedOption(value);
   };
-  const isActive = selectedOption === value;
+  const isActive = selectedOption === type;
   return (
     <div
       className={cn(
-        "shadow-md border rounded-md p-3 cursor-pointer min-h-[100px] flex flex-col justify-evenly hover:bg-slate-100", // Classe de base commune
-        isActive ? "bg-sky-100 hover:bg-sky-100" : "bg-slate-50" // Classe conditionnelle
+        "shadow-md border rounded-md p-1 cursor-pointer md:max-w-[400px] flex flex-col justify-evenly hover:border-slate-400 hover:border-[3px]", // Classe de base commune
+        isActive ? " border-slate-400 border-[3px]" : "bg-slate-50" // Classe conditionnelle
       )}
-      onClick={() => onClick(value)}
+      onClick={() => onClick(type)}
     >
-      <h1 className="font-bold">{name}</h1>
-      <p className="text-sm md:text-base text-muted-foreground">
-        {description}
-      </p>
+      <img src={`/${file}`} className="rounded-md" />
     </div>
   );
 }

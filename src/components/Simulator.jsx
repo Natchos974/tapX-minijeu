@@ -125,7 +125,7 @@ function Simulator() {
       datalabels: {
         color: "white",
         formatter: (value) => {
-          return `${numStr(value.toFixed(0), ".")} €`; // Formater les valeurs pour afficher deux décimales
+          return `${numStr(value.toFixed(0), ".")} €`;
         },
       },
     },
