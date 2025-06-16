@@ -25,25 +25,27 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/config/:id" element={<CheckURL />} />
-          <Route path="/config/reboot/:id" element={<CheckReboot />} />
           <Route path="/formation-react" element={<Test />} />
           <Route path="/scpi-simulator" element={<Simulator />} />
 
           {/* Private Routes */}
           {session ? (
-            <Route element={<DashboardLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/account"
-                element={<Account key={session?.user.id} session={session} />}
-              />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/zone" element={<Zone />} />
-              <Route path="/zone/:id" element={<ZoneDetails />} />
-              <Route path="/vue-drone" element={<Drone />} />
-              <Route path="/vue-interieure" element={<Interieur />} />
-              <Route path="/3d-view" element={<Viewer3d />} />
-            </Route>
+            <>
+              <Route path="/config/reboot/:id" element={<CheckReboot />} />
+              <Route element={<DashboardLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/account"
+                  element={<Account key={session?.user.id} session={session} />}
+                />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/zone" element={<Zone />} />
+                <Route path="/zone/:id" element={<ZoneDetails />} />
+                <Route path="/vue-drone" element={<Drone />} />
+                <Route path="/vue-interieure" element={<Interieur />} />
+                <Route path="/3d-view" element={<Viewer3d />} />
+              </Route>
+            </>
           ) : (
             <Route path="*" element={<Auth />} />
           )}
