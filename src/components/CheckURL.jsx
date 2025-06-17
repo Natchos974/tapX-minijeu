@@ -3,6 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import FormNFCwithMaps from "./FormNFC_withMaps";
 import Loader from "./Loader";
+import Footer from "./Footer";
 
 const CheckURL = () => {
   const { id } = useParams();
@@ -49,6 +50,7 @@ const CheckURL = () => {
   return !urlExists ? (
     <>
       <FormNFCwithMaps id={id} />
+      <Footer />
     </>
   ) : null;
 };
