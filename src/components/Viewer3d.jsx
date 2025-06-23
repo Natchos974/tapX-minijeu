@@ -48,7 +48,6 @@ function Viewer3d() {
         Faîtes tourner la résidence en la sélectionnant ou en bougeant le
         curseur !{" "}
       </p>
-      <div>This is a test</div>
       <div className="max-w-[1200px]">
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
