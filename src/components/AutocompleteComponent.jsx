@@ -9,8 +9,7 @@ import {
   useMapsLibrary,
   useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
-const API_KEY =
-  globalThis.GOOGLE_MAPS_API_KEY ?? "AIzaSyCHZMu6VFihyegwqqNP92lcu5floYe3TNI";
+const API_KEY = globalThis.GOOGLE_MAPS_API_KEY;
 
 const AutocompleteComponent = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
