@@ -31,7 +31,7 @@ export default function Auth() {
       <div className="flex flex-col gap-4 items-center border p-4 md:p-7 mx-auto rounded-lg bg-white shadow-xl md:min-w-[500px]">
         <h1 className="headline-1">TapX Mini jeu</h1>
         <p className="paragraph">
-          Connectez vous pour accéder à l&apos;application !
+          Connectez vous pour accéder à l&apos;application tapx minijeu !
         </p>
         <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <div>
