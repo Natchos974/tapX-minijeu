@@ -1,24 +1,21 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { supabase } from "../utils/supabaseClient";
 
 function MobileMenu() {
-  const studentRoutes = [
+  const Routes = [
     {
-      label: "Dashboard",
+      label: "Accueil",
       href: "/",
     },
     {
-      label: "Détails par zone",
-      href: "/zone",
+      label: "Mes cartes NFC",
+      href: "/mes-cartes",
     },
     {
-      label: "Vue drone",
-      href: "/vue-drone",
-    },
-    {
-      label: "Vue intérieure",
-      href: "/vue-interieure",
+      label: "Mini-jeu",
+      href: "/mini-jeu",
     },
   ];
   const [navOpen, setNavOpen] = useState(false);
@@ -26,7 +23,7 @@ function MobileMenu() {
     <button className="md:hidden" onClick={() => setNavOpen((prev) => !prev)}>
       <span>{navOpen ? <X /> : <Menu />}</span>
       <div className={"navbar " + (navOpen ? "active " : "")}>
-        {studentRoutes.map((item) => (
+        {Routes.map((item) => (
           <NavLink
             key={item.label}
             to={item.href}
@@ -35,12 +32,22 @@ function MobileMenu() {
                 ? "pending-link"
                 : isActive
                 ? "active-link"
-                : "flex items-center text-slate-500 text-lg pl-6 gap-x-2 font-[500] hover:text-slate-600"
+                : "flex items-center text-slate-500 text-base pl-6 gap-x-2 font-medium hover:text-slate-600"
             }
           >
             {item.label}
           </NavLink>
         ))}
+        <NavLink
+          key="deconnexion"
+          href={null}
+          onClick={() => supabase.auth.signOut()}
+          className={
+            "flex items-center text-slate-500 text-base pl-6 gap-x-2 font-medium hover:text-slate-600"
+          }
+        >
+          Se déconnecter
+        </NavLink>
       </div>
     </button>
   );

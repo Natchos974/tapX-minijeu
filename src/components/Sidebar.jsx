@@ -1,13 +1,11 @@
 import {
   ChevronLeft,
   ChevronRight,
+  Gamepad2,
   House,
-  Layout,
-  LayoutList,
   LockIcon,
   LogOutIcon,
-  MapPinHouse,
-  Rotate3D,
+  NfcIcon,
 } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 import { Logo } from "./Logo";
@@ -15,12 +13,10 @@ import { Link } from "react-router-dom";
 import { useSession } from "../utils/useSession";
 import { jwtDecode } from "jwt-decode";
 import SidebarItems from "./SidebarItems";
-import { useData } from "../utils/useData";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
   const session = useSession();
-  const { datas } = useData();
-  const zones = datas?.zones;
+
   const Routes = [
     {
       icon: House,
@@ -28,24 +24,14 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       href: "/",
     },
     {
-      icon: LayoutList,
-      label: "Détails par zone",
-      href: "/zone",
+      icon: NfcIcon,
+      label: "Mes cartes NFC",
+      href: "/mes-cartes",
     },
     {
-      icon: Rotate3D,
-      label: "Vue 3D",
-      href: "/3d-view",
-    },
-    {
-      icon: MapPinHouse,
-      label: "Vue drone",
-      href: "/vue-drone",
-    },
-    {
-      icon: Layout,
-      label: "Vue intérieure",
-      href: "/vue-interieure",
+      icon: Gamepad2,
+      label: "Paramétrage mini-jeu",
+      href: "/mini-jeu",
     },
   ];
   let isAdmin = null;
@@ -56,7 +42,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <div className="h-full border-r rounded-r-xl py-3 min-w-[80px] items-center flex flex-col overflow-y-auto bg-slate-50 shadow-sm">
-      <Link to={"/"} className="pb-4 px-3 w-full">
+      <Link to={"/"} className="pb-4 px-1 w-full">
         <Logo isOpen={isOpen} />
       </Link>
 
@@ -68,7 +54,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             icon={route.icon}
             label={route.label}
             isOpen={isOpen}
-            subItems={Routes.href == "zone" ? zones : ""}
           />
         ))}
       </div>

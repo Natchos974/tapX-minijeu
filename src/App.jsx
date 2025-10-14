@@ -4,46 +4,42 @@ import Account from "./components/Account";
 import { useSession } from "./utils/useSession";
 import DashboardLayout from "./components/DashboardLayout";
 import Home from "./components/Home";
-import Admin from "./components/Admin";
-import Drone from "./components/Drone";
-import Interieur from "./components/Interieur";
-import Viewer3d from "./components/Viewer3d";
-import Zone from "./components/Zone";
-import ZoneDetails from "./components/ZoneDetails";
 import { DataProvider } from "./utils/DataProvider";
-import CheckURL from "./components/CheckURL";
-import CheckReboot from "./components/CheckReboot";
-import Test from "./components/Test";
-import Simulator from "./components/Simulator";
+import NfcCard from "./components/NfcCard";
+import NFCRedirectPage from "./components/NFCRedirectPage";
+import PairCardPage from "./components/PairCardPage";
+import MiniJeu from "./components/MiniJeu";
+import SpinningWheel from "./components/SpinningWheel";
 
 function App() {
   const session = useSession();
 
   return (
     <Router>
-      <DataProvider>
+      <DataProvider userId={session?.user?.id}>
         <Routes>
           {/* Public Routes */}
-          <Route path="/config/:id" element={<CheckURL />} />
-          <Route path="/formation-react" element={<Test />} />
-          <Route path="/scpi-simulator" element={<Simulator />} />
-
+          <Route path="/config/:card_id" element={<NFCRedirectPage />} />
+          <Route path="/wheel/:merchant_id" element={<SpinningWheel />} />
           {/* Private Routes */}
           {session ? (
             <>
-              <Route path="/config/reboot/:id" element={<CheckReboot />} />
               <Route element={<DashboardLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route
                   path="/account"
                   element={<Account key={session?.user.id} session={session} />}
                 />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/zone" element={<Zone />} />
-                <Route path="/zone/:id" element={<ZoneDetails />} />
-                <Route path="/vue-drone" element={<Drone />} />
-                <Route path="/vue-interieure" element={<Interieur />} />
-                <Route path="/3d-view" element={<Viewer3d />} />
+                <Route
+                  path="/mes-cartes"
+                  element={<NfcCard key={session?.user.id} />}
+                />
+                <Route
+                  path="/pair-card/:card_id"
+                  element={<PairCardPage />}
+                  session={session}
+                />
+                <Route path="/mini-jeu" element={<MiniJeu />} />
               </Route>
             </>
           ) : (

@@ -5,7 +5,12 @@ const MapComponent = ({ location, name, address, placeId }) => {
   const markerRef = useRef(null);
 
   useEffect(() => {
-    if (!window.google || !location) return;
+    if (!window.google || !location || !location.lat || !location.lng) {
+      console.warn("Location invalide", location);
+      return;
+    }
+    //
+
     // Initialiser la carte
     const mapOptions = {
       center: location,

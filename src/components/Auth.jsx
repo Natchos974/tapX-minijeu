@@ -20,25 +20,25 @@ export default function Auth() {
     if (error) {
       alert(error.error_description || error.message);
     } else {
-      alert("Login succeeded !");
+      //alert("Login succeeded !");
       //navigate("/");
     }
     setLoading(false);
   };
 
   return (
-    <div className="flex justify-center h-screen items-center px-2">
-      <div className="flex flex-col gap-6 border p-7 rounded-md">
-        <h1 className="text-lg md:text-3xl font-bold">
-          This is a demo app to showcase any kind of dashboard
-        </h1>
-        <p className="md:text-lg font-medium ">Sign in to access the app</p>
+    <div className="flex justify-center h-screen items-center px-2 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="flex flex-col gap-4 items-center border p-4 md:p-7 mx-auto rounded-lg bg-white shadow-xl md:min-w-[500px]">
+        <h1 className="headline-1">TapX Mini jeu</h1>
+        <p className="paragraph">
+          Connectez vous pour accéder à l&apos;application !
+        </p>
         <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <div>
             <input
               className="input-field"
               type="email"
-              placeholder="Your email"
+              placeholder="Votre email"
               value={email}
               required={true}
               onChange={(e) => setEmail(e.target.value)}
@@ -48,7 +48,7 @@ export default function Auth() {
             <input
               className="input-field"
               type="password"
-              placeholder="Your password"
+              placeholder="Votre mot de passe"
               value={password}
               required={true}
               onChange={(e) => setPassword(e.target.value)}
@@ -61,7 +61,7 @@ export default function Auth() {
             className="flex border max-w-[200px] items-center gap-2 font-semibold text-l hover:bg-zinc-100 h-11 hover:text-zinc-700 px-2 md:px-8 py-3 rounded-md"
           >
             <ArrowBigRightDash />
-            {loading ? <span>Loading</span> : <span>Sign in </span>}
+            {loading ? <span>Loading</span> : <span>Connexion </span>}
           </button>
         </form>
       </div>

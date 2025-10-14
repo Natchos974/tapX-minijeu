@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { supabase } from "./supabaseClient"; // Assurez-vous d'importer votre client Supabase
+import { supabase } from "./supabaseClient";
 
 const SessionContext = createContext();
 

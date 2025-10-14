@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import MapComponent from "./MapComponent";
 import Card from "./Card";
+import { ArrowBigLeftIcon } from "lucide-react";
 
 const FormNFCwithMaps = ({ id }) => {
   const [userUrl, setUserUrl] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
-
   const [location, setLocation] = useState(null);
   const [myPlace, setmyPlace] = useState(null);
   const [placeId, setPlaceId] = useState(null);
@@ -17,44 +17,10 @@ const FormNFCwithMaps = ({ id }) => {
   const customLinkRef = useRef(null);
   const autoCompleteRef = useRef(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  const cards = [
-    {
-      id: 1,
-      type: "google",
-      file: "card-google.jpg",
-      urlPrefix: null,
-    },
-    {
-      id: 2,
-      type: "instagram",
-      file: "card-instagram.jpg",
-      urlPrefix: "https://www.instagram.com/",
-    },
-    {
-      id: 3,
-      type: "facebook",
-      file: "card-facebook.jpg",
-      urlPrefix: "https://www.facebook.com/",
-    },
-    {
-      id: 4,
-      type: "tiktok",
-      file: "card-tiktok.jpg",
-      urlPrefix: "https://www.tiktok.com/",
-    },
-    {
-      id: 5,
-      type: "tripadvisor",
-      file: "card-tripadvisor.jpg",
-      urlPrefix: "https://www.tripadvisor.com/",
-    },
-  ];
-  const selectedCard = selectedOption
-    ? cards.find((card) => card.type === selectedOption)
-    : null;
+
   useEffect(() => {
     setLocation(null);
-    if (selectedOption === "google") {
+  
       if (!scriptLoaded) {
         // Load the Google Places API script
         const script = document.createElement("script");
@@ -75,12 +41,8 @@ const FormNFCwithMaps = ({ id }) => {
         initializeAutocomplete();
       }
     }
-  }, [selectedOption, scriptLoaded]);
-  useEffect(() => {
-    if (urlSetup && urlSent) {
-      window.location.href = urlSent;
-    }
-  }, [urlSetup, urlSent]);
+  , [selectedOption, scriptLoaded]);
+
 
   const initializeAutocomplete = () => {
     if (!window.google || !inputRef.current) return;
@@ -122,26 +84,30 @@ const FormNFCwithMaps = ({ id }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (selectedOption === "google" && !placeId) {
+    if (!placeId) {
       alert("Veuillez sélectionner un lieu valide avant de soumettre.");
       return;
     }
 
-    const customUrl = selectedCard.urlPrefix + customLinkRef?.current?.value;
-    const urlSent = selectedOption == "google" ? userUrl : customUrl;
     // Afficher une boîte de dialogue de confirmation
     const isConfirmed =
       selectedOption === "google"
         ? window.confirm(
-            `Voici le lieu que vous allez paramétrer: \n${name}.\n\nConfirmez vous ?\nAttention, tout changement ultérieur sera facturé 4€`
+            `Voici le lieu que vous allez paramétrer: \n${name}.\n\nConfirmez vous ?`
           )
         : window.confirm(
-            `Voici l'url que vous allez paramétrer: \n${urlSent}\n\nConfirmez vous ?\nAttention, tout changement ultérieur sera facturé 4€`
+            `Voici l'url que vous allez paramétrer: \n${urlSent}\n\nConfirmez vous ?`
           );
     if (isConfirmed) {
-      const { error } = await supabase
-        .from("urls")
-        .insert([{ id, plaque_id: id, URL_redirection: urlSent, name: name }]);
+      const { error } = await supabase.from("urls").insert([
+        {
+          id,
+          plaque_id: id,
+          URL_redirection: urlSent,
+          name: name,
+          type: selectedCard?.type,
+        },
+      ]);
 
       if (error) {
         console.error("Erreur lors de l'appairage de l'URL:", error);
@@ -152,9 +118,12 @@ const FormNFCwithMaps = ({ id }) => {
       }
     }
   };
+  const onClick = (value) => {
+    selectedOption ? setSelectedOption(null) : setSelectedOption(value);
+  };
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-slate-200 to-transparent">
-      <div className="flex flex-col align-middle items-center gap-5 max-w-[800px] pb-5 px-2 md:px-5">
+    <div className="w-full  min-h-screen bg-gradient-to-b from-slate-200 to-transparent">
+      <div className="flex mx-auto flex-col align-middle items-center gap-5 max-w-[800px] pb-5 px-2 md:px-5">
         <img
           src="/tapx-logo.png"
           alt="logo-tapx"
@@ -162,9 +131,15 @@ const FormNFCwithMaps = ({ id }) => {
         />
         {selectedCard ? (
           <div className="flex flex-col gap-2">
-            <span className="text-sm md:text-base text-muted-foreground">
-              Pour retourner en arrière, cliquez sur la carte
-            </span>
+            <div
+              onClick={() => onClick(selectedCard?.type)}
+              className="flex gap-2 cursor-pointer border text-muted-foreground border-gray-400 w-fit  p-2 rounded-md hover:bg-black hover:text-white "
+            >
+              <ArrowBigLeftIcon />
+              <span className="flex items-center text-sm md:text-base  font-bold">
+                Retour
+              </span>
+            </div>
             <Card
               key={selectedCard.type}
               type={selectedCard.type}
@@ -175,7 +150,7 @@ const FormNFCwithMaps = ({ id }) => {
           </div>
         ) : (
           <>
-            <h1 className="text-lg font-bold md:text-3xl text-center">
+            <h1 className="text-2xl font-bold md:text-3xl text-center">
               Choisir le TapX à configurer:
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 mx-4 md:m-auto gap-2 md:gap-4">
@@ -220,7 +195,7 @@ const FormNFCwithMaps = ({ id }) => {
                   type="submit"
                   className="w-full border border-black text-black py-2 rounded-full hover:bg-black hover:text-white font-bold"
                 >
-                  Envoyer
+                  Paramétrer la carte
                 </button>
               </form>
             </div>
@@ -234,7 +209,11 @@ const FormNFCwithMaps = ({ id }) => {
                   <input
                     ref={customLinkRef}
                     type="text"
-                    placeholder="identifiant de la page à ajouter à l'url"
+                    placeholder={
+                      selectedCard.type == "custom"
+                        ? "votre site web"
+                        : "identifiant de la page à ajouter à l'url"
+                    }
                     className="mt-1 block w-full rounded border border-gray-300 p-2 text-sm md:text-lg"
                     required={true}
                   />
@@ -243,7 +222,7 @@ const FormNFCwithMaps = ({ id }) => {
                   type="submit"
                   className="w-full border border-black text-black py-2 rounded-full font-bold hover:bg-black hover:text-white "
                 >
-                  Envoyer
+                  Paramétrer la carte
                 </button>
               </form>
             </>

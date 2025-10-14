@@ -1,70 +1,71 @@
-import { SkeletonCard } from "./SkeletonCard";
 import { useData } from "../utils/useData";
-import ImageSlider from "./ImageSlider";
-import ImageWithPopup from "./ImageWithPopup";
-import { Suspense } from "react";
+import GoogleMap from "./GoogleMap";
+import GoogleBusinessSelection from "./GoogleBusinessSelection";
+import { supabase } from "../utils/supabaseClient";
+import { useState } from "react";
 
 function Home() {
-  const { datas, isLoading } = useData();
-  const areas = [
-    {
-      top: 27,
-      left: 33,
-      width: 15,
-      height: 35,
-      content: "Terrasse 2",
-      description: "Insérez ici la description de la zone...",
-      id: 1,
-    },
-    {
-      top: 18,
-      left: 49,
-      width: 9,
-      height: 42,
-      content: "Trattoria",
-      description: "Insérez ici la description de la zone...",
-      id: 2,
-    },
-    {
-      top: 18,
-      left: 85,
-      width: 12,
-      height: 42,
-      content: "Boulangerie",
-      description: "Insérez ici la description de la zone...",
-      id: 4,
-    },
-    {
-      top: 18,
-      left: 71,
-      width: 13,
-      height: 42,
-      content: "Terrasse 4",
-      description: "Insérez ici la description de la zone...",
-      id: 3,
-    },
-  ];
+  const { merchant, isLoading, refetchMerchant } = useData();
+  const [buttonLoading, setButtonLoading] = useState(false);
+  if (isLoading) {
+    return <p>Chargement en cours</p>;
+  }
+  async function handleDelete() {
+    try {
+      setButtonLoading(true);
+      //On récupère le user
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      // On envoie vers Supabase
+      const { error } = await supabase
+        .from("merchant")
+        .update({
+          name: null,
+          google_place_id: null,
+          location: null,
+          address: null,
+        })
+        .eq("merchant_id", user?.id);
+
+      if (error) throw error;
+      alert("Paramètres mis à jour avec succès !");
+      refetchMerchant();
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour des paramètres:", err);
+      alert("Erreur lors de la mise à jour.");
+    } finally {
+      setButtonLoading(false);
+    }
+  }
   return (
-    <>
-      {isLoading ? (
-        <SkeletonCard />
+    <div className="flex flex-col gap-4 w-full">
+      <h1 className="headline-1">Paramétrage de votre commerce</h1>
+      {merchant?.google_place_id && merchant?.location ? (
+        <>
+          <h2 className="paragraph">
+            Vous avez déjà paramétré votre commerce sur le lieu suivant:
+          </h2>
+          <GoogleMap
+            location={merchant.location}
+            name={merchant.name}
+            address={merchant.address}
+            googleId={merchant.google_place_id}
+          />
+          <button className="button-primary" onClick={handleDelete}>
+            {buttonLoading ? "Chargement..." : "Réinitialiser le commerce"}
+          </button>
+        </>
       ) : (
-        <div className="flex flex-col gap-4 w-full">
-          <h1 className="headline-2">
-            Découvrez le projet et ses différentes zones
-          </h1>
-          <p className="flex text-muted-foreground">
-            Passez votre souris au dessus de chaque zone pour obtenir des
-            informations, cliquez pour accéder à la fiche détaillée de chaque
-            zone
-          </p>
-          <Suspense fallback={<h2>🌀 Loading...</h2>}>
-            <ImageWithPopup imageSrc={datas?.plan_masse} zones={areas} />
-          </Suspense>
-          <ImageSlider imagesArray={datas?.pictures_array} />
-        </div>
+        <>
+          <h2 className="text-muted-foreground">
+            Renseignez ci dessous votre compte google business afin de le lier à
+            vos cartes tapX
+          </h2>
+          <GoogleBusinessSelection onSuccess={refetchMerchant} />
+        </>
       )}
-    </>
+    </div>
   );
 }
 

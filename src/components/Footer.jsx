@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-10">
+    <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-5 mx:py-10">
       <p>
         Développé par{" "}
         <a
@@ -9,7 +9,7 @@ function Footer() {
           className="font-bold hover:underline"
           rel="noreferrer"
         >
-          Nathan dev studio !
+          Darius
         </a>
       </p>
     </footer>
