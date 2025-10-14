@@ -142,7 +142,7 @@ const PlaceAutocomplete = ({ onPlaceSelect }) => {
       <input
         className="rounded-lg"
         ref={inputRef}
-        placeholder="Indiquez votre commerce"
+        placeholder="Cherchez ici votre commerce"
       />
     </div>
   );

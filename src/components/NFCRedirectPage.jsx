@@ -22,11 +22,7 @@ export default function NFCRedirectPage() {
         // 2. Si la carte est appairée, rediriger vers Google My Business
         if (nfcCard?.merchant?.google_place_id) {
           window.location.href = `https://search.google.com/local/writereview?placeid=${nfcCard.merchant.google_place_id}`;
-          window.open(
-            `/wheel/${nfcCard.merchant_id}`,
-            "spinningWheelTab",
-            "popup"
-          );
+          window.open(`/wheel/${nfcCard.merchant_id}`, "spinningWheelTab");
           return;
         }
 
