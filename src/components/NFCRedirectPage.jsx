@@ -21,8 +21,24 @@ export default function NFCRedirectPage() {
         }
         // 2. Si la carte est appairée, rediriger vers Google My Business
         if (nfcCard?.merchant?.google_place_id) {
-          window.location.href = `https://search.google.com/local/writereview?placeid=${nfcCard.merchant.google_place_id}`;
+          /*window.location.href = `https://search.google.com/local/writereview?placeid=${nfcCard.merchant.google_place_id}`;
           window.open(`/wheel/${nfcCard.merchant_id}`, "spinningWheelTab");
+          return;*/
+          // 1. Ouvre l'onglet du jeu de roue
+          const gameTab = window.open(
+            `/wheel/${nfcCard.merchant_id}`,
+            "spinningWheelTab"
+          ); // 2. Redirige vers Google après un délai très court
+          setTimeout(() => {
+            window.location.href = `https://search.google.com/local/writereview?placeid=${nfcCard.merchant.google_place_id}`;
+          }, 100);
+
+          // 3. (Optionnel) Message pour l'utilisateur
+          if (!gameTab) {
+            alert(
+              "Veuillez autoriser les pop-ups pour accéder au jeu après avoir laissé votre avis."
+            );
+          }
           return;
         }
 
