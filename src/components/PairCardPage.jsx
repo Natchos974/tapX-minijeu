@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
+import NfcItem from "./NfcItem";
 
 export default function PairCardPage() {
   const { card_id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [existingCard, setExistingCard] = useState(false);
+  const nav = useNavigate();
   useEffect(() => {
     const verifyCardExistence = async () => {
       // 1. Vérifier si la carte est déjà appairée
@@ -69,7 +71,8 @@ export default function PairCardPage() {
       if (pairError) throw pairError;
 
       // 4. Rediriger vers Google My Business
-      window.location.href = `https://search.google.com/local/writereview?placeid=${merchant.google_place_id}`;
+      nav("/mes-cartes");
+      //window.location.href = `https://search.google.com/local/writereview?placeid=${merchant.google_place_id}`;
     } catch (err) {
       setError(err.message);
     } finally {
@@ -81,11 +84,11 @@ export default function PairCardPage() {
     <>
       {!existingCard ? (
         <div>
-          <h1>Appairer cette carte à votre compte</h1>
-          <p>Card ID: {card_id}</p>
+          <h1 className="headline-1">Appairer cette carte à votre compte</h1>
+          <NfcItem id={card_id} />
           {error && <div className="error">{error}</div>}
           <button
-            className="bg-slate-100 border-black rounded-lg px-2 py-1"
+            className="button-primary mt-4"
             onClick={handlePairCard}
             disabled={isLoading}
           >
