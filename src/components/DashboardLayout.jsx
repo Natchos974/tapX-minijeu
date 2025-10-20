@@ -37,7 +37,7 @@ function DashboardLayout({ data }) {
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
         </div>
         <main
-          className={`bg-gradient-to-b from-slate-50 to-white md:ml-[80px] h-full pt-[80px] pb-3 min-h-[100vh]  px-2 md:px-4 items-center flex flex-col md:items-start z-0`}
+          className={`bg-gradient-to-b from-slate-50 to-white md:ml-[80px] h-full pt-[80px] pb-3 min-h-[100vh] px-4 md:px-7 items-center flex flex-col md:items-start z-0`}
         >
           <Outlet />
         </main>

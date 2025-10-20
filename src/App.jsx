@@ -10,12 +10,14 @@ import NFCRedirectPage from "./components/NFCRedirectPage";
 import PairCardPage from "./components/PairCardPage";
 import MiniJeu from "./components/MiniJeu";
 import SpinningWheel from "./components/SpinningWheel";
+import ScrollToTop from "./components/scrollToTop";
 
 function App() {
   const session = useSession();
 
   return (
     <Router>
+      <ScrollToTop />
       <DataProvider userId={session?.user?.id}>
         <Routes>
           {/* Public Routes */}

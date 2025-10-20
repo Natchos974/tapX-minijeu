@@ -39,7 +39,7 @@ function Home() {
     }
   }
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 w-full">
       <h1 className="headline-1">Paramétrage de votre commerce</h1>
       {merchant?.google_place_id && merchant?.location ? (
         <>
